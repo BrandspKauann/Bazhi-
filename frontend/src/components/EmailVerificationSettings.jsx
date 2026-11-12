@@ -7,7 +7,7 @@ import { Card } from './ui/Card';
 const MAX_TEST_EMAILS = 10;
 
 const STATUS_ICON = {
-  valid:   { icon: '✓', label: 'Send',          cls: 'text-green-600 font-semibold' },
+  valid:   { icon: '✓', label: 'Enviar',          cls: 'text-green-600 font-semibold' },
   invalid: { icon: '✗', label: 'Skip',          cls: 'text-red-500 font-semibold' },
   risky:   { icon: '⚠', label: 'Skip (risky)',  cls: 'text-yellow-600 font-semibold' },
   unknown: { icon: '?', label: 'Allow through', cls: 'text-gray-500' },
@@ -195,8 +195,8 @@ export default function EmailVerificationSettings() {
           <span className={`text-gray-400 transition-transform text-xs ${expanded ? 'rotate-90' : ''}`}>▶</span>
           <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-100 truncate">Email Verification</h3>
           {enabled
-            ? <span className="text-[10px] bg-green-100 text-green-700 border border-green-200 rounded-full px-2 py-0.5 font-medium shrink-0">Enabled</span>
-            : <span className="text-[10px] bg-gray-100 text-gray-500 border rounded-full px-2 py-0.5 font-medium shrink-0">Disabled</span>
+            ? <span className="text-[10px] bg-green-100 text-green-700 border border-green-200 rounded-full px-2 py-0.5 font-medium shrink-0">Ativado</span>
+            : <span className="text-[10px] bg-gray-100 text-gray-500 border rounded-full px-2 py-0.5 font-medium shrink-0">Desativado</span>
           }
         </div>
         <label className="flex items-center gap-1.5 cursor-pointer shrink-0 ml-4" onClick={e => e.stopPropagation()}>
@@ -342,7 +342,7 @@ export default function EmailVerificationSettings() {
                       onChange={e => setProbeEmail(e.target.value)}
                     />
                     <Button size="sm" variant="outline" onClick={probeUrl} disabled={probing || !customUrl}>
-                      {probing ? 'Loading…' : 'Preview response'}
+                      {probing ? 'Carregando…' : 'Preview response'}
                     </Button>
                   </div>
 
@@ -503,7 +503,7 @@ export default function EmailVerificationSettings() {
               )}
               <div className="flex items-center gap-3 flex-wrap">
                 <Button size="sm" onClick={save} disabled={saving}>
-                  {saving ? 'Saving…' : 'Save'}
+                  {saving ? 'Saving…' : 'Salvar'}
                 </Button>
                 {provider !== 'custom' && (
                   <Button

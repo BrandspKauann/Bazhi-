@@ -35,8 +35,8 @@ function statusColor(status) {
 
 function statusLabel(status) {
   switch (status) {
-    case 'error':   return 'Error';
-    case 'warning': return 'Warning';
+    case 'error':   return 'Erro';
+    case 'warning': return 'Aviso';
     case 'ok':      return 'Healthy';
     default:        return 'Unknown';
   }
@@ -129,7 +129,7 @@ function OverallHeader({ status, loading, lastChecked, onRefresh, issueCount }) 
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-300 bg-white text-sm text-gray-600 hover:bg-gray-50 disabled:opacity-50 transition-colors"
         >
           <RiRefreshLine size={15} className={loading ? 'animate-spin' : ''} />
-          {loading ? 'Checking…' : 'Refresh'}
+          {loading ? 'Checking…' : 'Atualizar'}
         </button>
       </div>
     </div>
@@ -298,13 +298,13 @@ function CheckMeta({ check }) {
   if (check.id === 'inbox_status' && check.meta.inboxList?.length > 0) {
     return (
       <div className="mt-1 space-y-1.5 border-t border-gray-100 pt-2">
-        <p className="text-xs text-gray-400 font-medium uppercase tracking-wide">Inboxes</p>
+        <p className="text-xs text-gray-400 font-medium uppercase tracking-wide">Contas de e-mail</p>
         {check.meta.inboxList.map(inbox => (
           <div key={inbox.id} className="flex items-center justify-between gap-2 text-sm">
             <span className="text-gray-700 truncate">{inbox.display_name || inbox.email}</span>
             {inbox.paused
-              ? <span className="text-xs bg-yellow-100 text-yellow-700 px-1.5 py-0.5 rounded-full font-medium">Paused</span>
-              : <span className="text-xs bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full font-medium">Active</span>
+              ? <span className="text-xs bg-yellow-100 text-yellow-700 px-1.5 py-0.5 rounded-full font-medium">Pausado</span>
+              : <span className="text-xs bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full font-medium">Ativo</span>
             }
           </div>
         ))}
@@ -318,7 +318,7 @@ function CheckMeta({ check }) {
         <div className="flex items-center justify-between text-sm">
           <span className="text-gray-500">Push notifications</span>
           {check.meta.pushEnabled
-            ? <span className="text-xs bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full font-medium">Enabled</span>
+            ? <span className="text-xs bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full font-medium">Ativado</span>
             : <span className="text-xs bg-gray-100  text-gray-600  px-1.5 py-0.5 rounded-full font-medium">Polling</span>
           }
         </div>
@@ -351,7 +351,7 @@ function CheckMeta({ check }) {
                         ? 'bg-red-100 text-red-700'
                         : 'bg-green-100 text-green-700'
               }`}>
-                {!f.enabled ? 'Disabled' : !f.api_key_set ? 'Missing key' : !f.connection_tested ? 'Not tested' : f.last_error ? 'Error' : 'Healthy'}
+                {!f.enabled ? 'Desativado' : !f.api_key_set ? 'Missing key' : !f.connection_tested ? 'Not tested' : f.last_error ? 'Erro' : 'Healthy'}
               </span>
             </div>
             {f.enabled && f.last_error && (
@@ -371,9 +371,9 @@ function CheckMeta({ check }) {
     return (
       <div className="mt-1 border-t border-gray-100 pt-2 space-y-1.5">
         <div className="flex items-center justify-between text-sm">
-          <span className="text-gray-500">Status</span>
+          <span className="text-gray-500">Situação</span>
           {!ev.enabled
-            ? <span className="text-xs bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded-full font-medium">Disabled</span>
+            ? <span className="text-xs bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded-full font-medium">Desativado</span>
             : ev.connection_tested
               ? <span className="text-xs bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full font-medium">Tested ✓</span>
               : <span className="text-xs bg-orange-100 text-orange-700 px-1.5 py-0.5 rounded-full font-medium">Not tested</span>
@@ -399,9 +399,9 @@ function CheckMeta({ check }) {
     return (
       <div className="mt-1 border-t border-gray-100 pt-2">
         <div className="flex items-center justify-between text-sm">
-          <span className="text-gray-500">Test Mode</span>
+          <span className="text-gray-500">Modo de teste</span>
           {check.meta.testMode
-            ? <span className="text-xs bg-yellow-100 text-yellow-700 px-1.5 py-0.5 rounded-full font-medium">Active</span>
+            ? <span className="text-xs bg-yellow-100 text-yellow-700 px-1.5 py-0.5 rounded-full font-medium">Ativo</span>
             : <span className="text-xs bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full font-medium">Off</span>
           }
         </div>
@@ -418,8 +418,8 @@ function CheckMeta({ check }) {
             <div className="flex items-center justify-between gap-2 text-sm">
               <span className="text-gray-700 truncate">{inbox.display_name || inbox.email}</span>
               {inbox.tracking_domain_status === 'ok'
-                ? <span className="text-xs bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full font-medium">Connected</span>
-                : <span className="text-xs bg-red-100 text-red-700 px-1.5 py-0.5 rounded-full font-medium">Not connected</span>
+                ? <span className="text-xs bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full font-medium">Conectado</span>
+                : <span className="text-xs bg-red-100 text-red-700 px-1.5 py-0.5 rounded-full font-medium">Desconectado</span>
               }
             </div>
             <p className="text-xs text-gray-400 ml-1">{inbox.tracking_domain}</p>
@@ -461,7 +461,7 @@ export default function SystemHealth() {
       {/* Page title */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800">System Health</h1>
+          <h1 className="text-2xl font-bold text-gray-800">Saúde do sistema</h1>
           <p className="text-sm text-gray-500 mt-0.5">
             Monitor connection status, OAuth tokens, and feature configuration.
           </p>

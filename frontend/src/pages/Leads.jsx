@@ -11,24 +11,24 @@ import { useLoading } from '../context/LoadingContext';
 import { cn } from '../utils/cn';
 
 const STATUS_OPTIONS = [
-  { value: 'all', label: 'All statuses' },
-  { value: 'active', label: 'Enrollment: active' },
-  { value: 'contacted', label: 'Enrollment: contacted' },
-  { value: 'completed', label: 'Enrollment: completed' },
-  { value: 'bounced', label: 'Enrollment: bounced' },
-  { value: 'unsubscribed', label: 'Enrollment: unsubscribed' },
-  { value: 'wrong_person', label: 'Enrollment: wrong_person' },
-  { value: 'invalid', label: 'Verify: invalid' },
-  { value: 'replied', label: 'Has reply' },
+  { value: 'all', label: 'Todas as situações' },
+  { value: 'active', label: 'Participação: ativa' },
+  { value: 'contacted', label: 'Participação: contatado' },
+  { value: 'completed', label: 'Participação: concluída' },
+  { value: 'bounced', label: 'Participação: devolvido' },
+  { value: 'unsubscribed', label: 'Participação: inscrição cancelada' },
+  { value: 'wrong_person', label: 'Participação: pessoa incorreta' },
+  { value: 'invalid', label: 'Verificação: inválido' },
+  { value: 'replied', label: 'Com resposta' },
 ];
 
 const INTEREST_FILTER_OPTIONS = [
-  { value: 'all', label: 'All interest' },
-  { value: 'unset', label: 'No interest set' },
-  { value: 'interested', label: 'Interested' },
-  { value: 'not_interested', label: 'Not interested' },
-  { value: 'out_of_office', label: 'Out of office' },
-  { value: 'auto_reply', label: 'Auto-reply' },
+  { value: 'all', label: 'Todos os interesses' },
+  { value: 'unset', label: 'Interesse não definido' },
+  { value: 'interested', label: 'Com interesse' },
+  { value: 'not_interested', label: 'Sem interesse' },
+  { value: 'out_of_office', label: 'Fora do escritório' },
+  { value: 'auto_reply', label: 'Resposta automática' },
 ];
 
 const TAB_ALL = 'all';
@@ -67,7 +67,7 @@ function leadRowSummary(lead) {
   return bits.slice(0, 3).join(' · ') + (bits.length > 3 ? '…' : '');
 }
 
-function buildLeadsQueryParams({ tab, debouncedSearch, statusFilter, interestFilter }) {
+function buildLeadsQueryParams({ tab, debouncedSearch, statusFilter, interestFilter, tagFilter }) {
   const params = new URLSearchParams();
   if (debouncedSearch) params.set('q', debouncedSearch);
   if (tab === TAB_BOUNCED) {
@@ -76,6 +76,7 @@ function buildLeadsQueryParams({ tab, debouncedSearch, statusFilter, interestFil
   if (tab === TAB_ALL && statusFilter !== 'all') {
     params.set('status', statusFilter);
   }
+  if (tagFilter.trim()) params.set('tag', tagFilter.trim());
   if (interestFilter && interestFilter !== 'all') {
     params.set('interest', interestFilter);
   }
@@ -96,6 +97,7 @@ export default function Leads() {
   const [leads, setLeads] = useState([]);
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [tagFilter, setTagFilter] = useState('');
   const [interestFilter, setInterestFilter] = useState('all');
   const [leadsPage, setLeadsPage] = useState(1);
   const [leadsTotal, setLeadsTotal] = useState(0);
@@ -121,7 +123,7 @@ export default function Leads() {
   const loadLeads = useCallback(async (page = 1, resetSelection = false) => {
     loading.start();
     try {
-      const params = buildLeadsQueryParams({ tab, debouncedSearch, statusFilter, interestFilter });
+      const params = buildLeadsQueryParams({ tab, debouncedSearch, statusFilter, interestFilter, tagFilter });
       params.set('page', String(page)); params.set('page_size', String(LEADS_PAGE_SIZE));
       const qs = params.toString();
       const data = await api.get('/leads/page' + (qs ? `?${qs}` : ''));
@@ -139,11 +141,11 @@ export default function Leads() {
         return next;
       });
     } catch (e) {
-      notify({ type: 'error', message: e.message || 'Failed to load leads' });
+      notify({ type: 'error', message: e.message || 'Não foi possível carregar os contatos' });
     } finally {
       loading.stop();
     }
-  }, [debouncedSearch, statusFilter, interestFilter, tab, loading, notify]);
+  }, [debouncedSearch, statusFilter, interestFilter, tagFilter, tab, loading, notify]);
 
   useEffect(() => {
     loadLeads(1, true);
@@ -217,12 +219,13 @@ export default function Leads() {
   // same filters that built the list are sent along with the selection. Without
   // this, "select all" would resolve to a wider set than the user can see.
   const selectionFilters = () => {
-    const params = buildLeadsQueryParams({ tab, debouncedSearch, statusFilter, interestFilter });
+    const params = buildLeadsQueryParams({ tab, debouncedSearch, statusFilter, interestFilter, tagFilter });
     return {
       q: params.get('q') || null,
       status: params.get('status') || null,
       bad_only: params.get('bad_only') === 'true',
       interest: params.get('interest') || null,
+      tag: params.get('tag') || null,
     };
   };
 
@@ -362,7 +365,7 @@ export default function Leads() {
   const exportCsv = async () => {
     // Export covers the whole filtered set, not just the visible page — so the
     // pagination params must NOT be sent here.
-    const params = buildLeadsQueryParams({ tab, debouncedSearch, statusFilter, interestFilter });
+    const params = buildLeadsQueryParams({ tab, debouncedSearch, statusFilter, interestFilter, tagFilter });
     const qs = params.toString();
     loading.start();
     try {
@@ -415,16 +418,16 @@ export default function Leads() {
     <div className="min-h-0 flex-1 overflow-y-auto p-8 space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold mb-1">Leads</h1>
+          <h1 className="text-2xl font-semibold mb-1">Contatos</h1>
           <p className="text-sm text-gray-500 max-w-2xl">
-            Search and manage contacts across campaigns. Use{' '}
-            <strong className="font-medium text-gray-700">Bounced &amp; Invalid</strong>{' '}
-            to fix addresses and put people back into the send flow (with verification when enabled).
+            Busque e gerencie contatos de todas as campanhas. Use{' '}
+            <strong className="font-medium text-gray-700">Devolvidos e inválidos</strong>{' '}
+            para corrigir endereços e retomar os envios aos contatos (com verificação, quando ativada).
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
           <Button type="button" variant="outline" size="sm" onClick={exportCsv} disabled={!leads.length}>
-            Export CSV
+            Exportar CSV
           </Button>
           <FileUploadArea
             size="sm"
@@ -435,7 +438,7 @@ export default function Leads() {
               if (f) importRecoverCsv(f);
             }}
           >
-            Import recovery CSV
+            Importar CSV de recuperação
           </FileUploadArea>
         </div>
       </div>
@@ -451,7 +454,7 @@ export default function Leads() {
               : 'bg-white text-gray-600 border-gray-300 hover:border-teal-300 hover:bg-teal-50',
           )}
         >
-          All leads
+          Todos os contatos
         </button>
         <button
           type="button"
@@ -463,13 +466,13 @@ export default function Leads() {
               : 'bg-white text-gray-600 border-gray-300 hover:border-teal-300 hover:bg-teal-50',
           )}
         >
-          Bounced &amp; Invalid
+          Devolvidos e inválidos
         </button>
       </div>
 
       {tab === TAB_ALL && (
         <div className="flex flex-wrap gap-2 items-center">
-          <span className="text-sm text-gray-500">Status:</span>
+          <span className="text-sm text-gray-500">Situação:</span>
           {STATUS_OPTIONS.map((o) => (
             <button
               key={o.value}
@@ -489,7 +492,7 @@ export default function Leads() {
       )}
 
       <div className="flex flex-wrap gap-2 items-center">
-        <span className="text-sm text-gray-500">Interest:</span>
+        <span className="text-sm text-gray-500">Interesse:</span>
         {INTEREST_FILTER_OPTIONS.map((o) => (
           <button
             key={o.value}
@@ -510,18 +513,19 @@ export default function Leads() {
       {tab === TAB_BOUNCED && (
         <Card className="p-4 bg-amber-50/80 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800">
           <p className="text-sm text-gray-800 dark:text-gray-200">
-            Edit the email for each row, then <strong className="font-medium">Save &amp; recover</strong>. That updates the
-            lead record (all campaigns), sets status to active, and either queues verification or reschedules immediately.
-            Export bad addresses to clean them elsewhere, then import a CSV with columns <code className="font-mono text-xs">id,email</code>.
+            Edite o e-mail de cada linha e clique em <strong className="font-medium">Salvar e recuperar</strong>. Isso atualiza o
+            cadastro do contato em todas as campanhas, ativa sua participação e agenda a verificação ou o próximo envio.
+            Exporte os endereços incorretos para corrigi-los e importe um CSV com as colunas <code className="font-mono text-xs">id,email</code>.
           </p>
         </Card>
       )}
 
       <div className="flex flex-wrap gap-4 items-end">
+        <label className="text-sm font-medium">Filtrar por tag<input className="block border rounded-lg px-3 py-2 mt-1" placeholder="Nome exato da tag" value={tagFilter} onChange={e=>setTagFilter(e.target.value)} /></label>
         <div className="flex-1 min-w-[200px] max-w-md">
           <Input
-            label="Search"
-            placeholder="Email or name…"
+            label="Buscar"
+            placeholder="E-mail ou nome…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -532,7 +536,7 @@ export default function Leads() {
         <Card className="p-4 flex flex-wrap gap-3 items-center">
           <span className="text-sm font-medium text-gray-700">{selectedCount} selected</span>
           <Button type="button" variant="destructive" size="sm" onClick={handleBulkDelete}>
-            Delete
+            Excluir
           </Button>
           <div className="flex flex-wrap items-center gap-2">
             <select
@@ -561,7 +565,7 @@ export default function Leads() {
 
       <Card className="overflow-x-auto max-w-full min-w-0">
         <div className="px-4 py-2 text-sm text-gray-500 border-b border-gray-100">
-          {leads.length} lead{leads.length !== 1 ? 's' : ''}
+          {leads.length} contato{leads.length !== 1 ? 's' : ''}
           {tab === TAB_BOUNCED ? ' (bounced or invalid)' : ''}
         </div>
         {pageFullySelected && !allSelected && (
@@ -572,14 +576,14 @@ export default function Leads() {
               className="font-medium text-teal-700 hover:underline"
               onClick={selectAllLeads}
             >
-              Select all {leadsTotal.toLocaleString()} leads
+              Select all {leadsTotal.toLocaleString()} contatos
             </button>
           </div>
         )}
 
         {allSelected && (
           <div className="mx-4 mt-3 flex items-center justify-between rounded-lg border border-teal-200 bg-teal-50 px-4 py-3 text-sm">
-            <span>{(leadsTotal - excludedIds.size).toLocaleString()} of {leadsTotal.toLocaleString()} leads selected.</span>
+            <span>{(leadsTotal - excludedIds.size).toLocaleString()} of {leadsTotal.toLocaleString()} contatos selected.</span>
             <button
               type="button"
               className="font-medium text-gray-600 hover:underline"
@@ -599,24 +603,24 @@ export default function Leads() {
                   className="rounded"
                   checked={pageFullySelected}
                   onChange={(e) => togglePageSelection(e.target.checked)}
-                  aria-label="Select all"
+                  aria-label="Selecionar todos"
                 />
               </th>
-              <th className="p-2">Email</th>
-              <th className="p-2">Name</th>
-              <th className="p-2">Verify / enrollments</th>
-              <th className="p-2">Campaigns</th>
-              <th className="p-2">Sending inbox</th>
-              <th className="p-2">Enrolled</th>
+              <th className="p-2">E-mail</th>
+              <th className="p-2">Nome</th>
+              <th className="p-2">Verificação / participações</th>
+              <th className="p-2">Campanhas</th>
+              <th className="p-2">Conta de envio</th>
+              <th className="p-2">Adicionado em</th>
               {tab === TAB_BOUNCED && <th className="p-2 min-w-[200px]">New email</th>}
-              {tab === TAB_BOUNCED && <th className="p-2 w-44">Actions</th>}
+              {tab === TAB_BOUNCED && <th className="p-2 w-44">Ações</th>}
             </tr>
           </thead>
           <tbody>
             {leads.length === 0 ? (
               <tr>
                 <td colSpan={tab === TAB_BOUNCED ? 9 : 7} className="p-8 text-center text-gray-500">
-                  No leads match this view.
+                  Nenhum contato corresponde aos filtros selecionados.
                 </td>
               </tr>
             ) : (
@@ -636,7 +640,7 @@ export default function Leads() {
                       {l.email}
                     </Link>
                   </td>
-                  <td className="p-2 align-top">{l.name || '—'}</td>
+                  <td className="p-2 align-top">{l.name || '—'}<div className="flex flex-wrap gap-1 mt-1">{(Array.isArray(l.custom_data?.tags)?l.custom_data.tags:[]).map(tag=><span key={tag} className="rounded bg-teal-50 text-teal-700 px-2 py-0.5 text-xs">{tag}</span>)}</div></td>
                   <td className="p-2 align-top">
                     <div className="flex flex-wrap gap-1">
                       {l.email_verification_status && (
@@ -715,7 +719,7 @@ export default function Leads() {
                   {tab === TAB_BOUNCED && (
                     <td className="p-2 align-top space-y-1">
                       <Button type="button" size="sm" variant="default" onClick={() => recoverOne(l)}>
-                        Save &amp; recover
+                        Salvar e recuperar
                       </Button>
                       <Button type="button" size="sm" variant="outline" onClick={() => markActiveOne(l)}>
                         Active only
@@ -735,10 +739,10 @@ export default function Leads() {
               disabled={leadsPage <= 1}
               onClick={() => loadLeads(leadsPage - 1)}
             >
-              Previous
+              Anterior
             </Button>
             <span className="text-xs text-gray-500">
-              Page {leadsPage} / {Math.ceil(leadsTotal / LEADS_PAGE_SIZE)} · {leadsTotal.toLocaleString()} leads
+              Página {leadsPage} / {Math.ceil(leadsTotal / LEADS_PAGE_SIZE)} · {leadsTotal.toLocaleString()} contatos
             </span>
             <Button
               size="sm"
@@ -746,7 +750,7 @@ export default function Leads() {
               disabled={!leadsHasMore}
               onClick={() => loadLeads(leadsPage + 1)}
             >
-              Next
+              Próximo
             </Button>
           </div>
         )}

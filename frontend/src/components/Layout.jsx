@@ -45,12 +45,20 @@ export default function Layout({ children }) {
   // initialize collapsed state from localStorage (knows before first paint)
   const [sidebarCollapsed, setSidebarCollapsed] = React.useState(() => {
     try {
+      if (window.matchMedia('(max-width: 767px)').matches) return true;
       const stored = localStorage.getItem('sidebarCollapsed');
       return stored === 'true';
     } catch {
       return false;
     }
   });
+
+  React.useEffect(() => {
+    const media = window.matchMedia('(max-width: 767px)');
+    const collapseOnSmallScreen = event => { if (event.matches) setSidebarCollapsed(true); };
+    media.addEventListener('change', collapseOnSmallScreen);
+    return () => media.removeEventListener('change', collapseOnSmallScreen);
+  }, []);
 
   return (
     <NotificationProvider>

@@ -44,11 +44,11 @@ function buildPresets(serverToday) {
   const lastMonthStart = localIso(new Date(t.getFullYear(), t.getMonth() - 1, 1));
   const lastMonthEnd = localIso(new Date(t.getFullYear(), t.getMonth(), 0));
   return [
-    { label: 'Last 7 Days',  start: d(-6),          end: todayStr },
-    { label: 'Last Week',    start: lastWeekStart,  end: localIso(lastWeekEnd) },
-    { label: 'Last 30 Days', start: d(-29),         end: todayStr },
-    { label: 'Last Month',   start: lastMonthStart, end: lastMonthEnd },
-    { label: 'Last 90 Days', start: d(-89),         end: todayStr },
+    { label: 'Últimos 7 dias',  start: d(-6),          end: todayStr },
+    { label: 'Semana passada',    start: lastWeekStart,  end: localIso(lastWeekEnd) },
+    { label: 'Últimos 30 dias', start: d(-29),         end: todayStr },
+    { label: 'Mês passado',   start: lastMonthStart, end: lastMonthEnd },
+    { label: 'Últimos 90 dias', start: d(-89),         end: todayStr },
   ];
 }
 
@@ -62,8 +62,8 @@ export default function Analytics() {
   const [serverToday, setServerToday] = useState(null);
 
   const [presets, setPresets] = useState(() => buildPresets(new Date()));
-  const [activePreset, setActivePreset] = useState('Last 7 Days');
-  const defaultRange = presets.find(p => p.label === 'Last 7 Days') || presets[0];
+  const [activePreset, setActivePreset] = useState('Últimos 7 dias');
+  const defaultRange = presets.find(p => p.label === 'Últimos 7 dias') || presets[0];
   const [startDate, setStartDate] = useState(defaultRange.start);
   const [endDate, setEndDate] = useState(defaultRange.end);
 
@@ -98,10 +98,10 @@ export default function Analytics() {
         // Rebuild presets using server time
         const newPresets = buildPresets(t);
         setPresets(newPresets);
-        const last7 = newPresets.find(p => p.label === 'Last 7 Days') || newPresets[0];
+        const last7 = newPresets.find(p => p.label === 'Últimos 7 dias') || newPresets[0];
         setStartDate(last7.start);
         setEndDate(last7.end);
-        setActivePreset('Last 7 Days');
+        setActivePreset('Últimos 7 dias');
       } catch (e) {
         setError('Failed to load analytics');
       }
@@ -168,12 +168,12 @@ export default function Analytics() {
 
   // series metadata for chart and legend
   const seriesList = [
-    { key: 'sent', name: 'Sent', stroke: 'rgba(59,130,246,0.8)', fill: 'rgba(59,130,246,0.4)' },
-    { key: 'totalOpens', name: 'Total Opens', stroke: 'rgba(234,179,8,0.8)', fill: 'rgba(234,179,8,0.4)' },
-    { key: 'uniqueOpens', name: 'Unique Opens', stroke: 'rgba(16,185,129,0.8)', fill: 'rgba(16,185,129,0.4)' },
-    { key: 'totalReplies', name: 'Total Replies', stroke: 'rgba(45,212,191,0.8)', fill: 'rgba(45,212,191,0.4)' },
-    { key: 'totalClicks', name: 'Total Clicks', stroke: 'rgba(234,88,12,0.8)', fill: 'rgba(234,88,12,0.4)' },
-    { key: 'uniqueClicks', name: 'Unique Clicks', stroke: 'rgba(236,72,153,0.8)', fill: 'rgba(236,72,153,0.4)' },
+    { key: 'sent', name: 'Enviados', stroke: 'rgba(59,130,246,0.8)', fill: 'rgba(59,130,246,0.4)' },
+    { key: 'totalOpens', name: 'Total de aberturas', stroke: 'rgba(234,179,8,0.8)', fill: 'rgba(234,179,8,0.4)' },
+    { key: 'uniqueOpens', name: 'Aberturas únicas', stroke: 'rgba(16,185,129,0.8)', fill: 'rgba(16,185,129,0.4)' },
+    { key: 'totalReplies', name: 'Total de respostas', stroke: 'rgba(45,212,191,0.8)', fill: 'rgba(45,212,191,0.4)' },
+    { key: 'totalClicks', name: 'Total de cliques', stroke: 'rgba(234,88,12,0.8)', fill: 'rgba(234,88,12,0.4)' },
+    { key: 'uniqueClicks', name: 'Cliques únicos', stroke: 'rgba(236,72,153,0.8)', fill: 'rgba(236,72,153,0.4)' },
   ];
 
   // once chartData is computed, initialize hide state for any all-zero series (only first time)
@@ -246,21 +246,21 @@ export default function Analytics() {
 
   return (
     <div className="min-h-0 flex-1 overflow-y-auto p-8 space-y-6">
-      <h1 className="text-2xl font-semibold mb-4">Analytics</h1>
+      <h1 className="text-2xl font-semibold mb-4">Relatórios</h1>
       {error && <div className="text-red-600">{error}</div>}
 
       {/* KPI cards */}
       <div className="flex flex-wrap gap-4 mb-4">
         <Card className="p-4">
-          <div className="text-sm text-gray-500">Total Sent</div>
+          <div className="text-sm text-gray-500">Total enviado</div>
           <div className="text-2xl font-bold">{rangeSent}</div>
         </Card>
         <Card className="p-4">
-          <div className="text-sm text-gray-500">Reply Rate</div>
+          <div className="text-sm text-gray-500">Taxa de resposta</div>
           <div className="text-2xl font-bold">{replyRateRange}%</div>
         </Card>
         <Card className="p-4">
-          <div className="text-sm text-gray-500">Click Rate</div>
+          <div className="text-sm text-gray-500">Taxa de cliques</div>
           <div className="text-2xl font-bold">{clickRateRange}%</div>
         </Card>
       </div>
@@ -288,14 +288,14 @@ export default function Analytics() {
               : 'bg-white text-gray-600 border-gray-300 hover:border-teal-300 hover:bg-teal-50'
           }`}
         >
-          Custom
+          Personalizado
         </button>
       </div>
 
       {activePreset === 'custom' && (
         <div className="flex items-center gap-4">
-          <label className="text-sm flex items-center gap-1">From <DatePicker value={startDate} onChange={v => { setStartDate(v); setActivePreset('custom'); }} /></label>
-          <label className="text-sm flex items-center gap-1">To <DatePicker value={endDate} onChange={v => { setEndDate(v); setActivePreset('custom'); }} /></label>
+          <label className="text-sm flex items-center gap-1">De <DatePicker value={startDate} onChange={v => { setStartDate(v); setActivePreset('custom'); }} /></label>
+          <label className="text-sm flex items-center gap-1">Para <DatePicker value={endDate} onChange={v => { setEndDate(v); setActivePreset('custom'); }} /></label>
         </div>
       )}
 
@@ -343,7 +343,7 @@ export default function Analytics() {
       </Card>
       <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4">
         <div className="flex-1">
-          <label htmlFor="campaign-select" className="sr-only">Campaigns</label>
+          <label htmlFor="campaign-select" className="sr-only">Campanhas</label>
           <div className="flex items-center gap-2">
             <select
               id="campaign-select"
@@ -351,7 +351,7 @@ export default function Analytics() {
               onChange={e => setCurrentChoice(e.target.value)}
               className="border rounded px-2 py-1"
             >
-              <option value="">Add a campaign…</option>
+              <option value="">Adicionar campanha…</option>
               {campaigns
                 .filter(c => !selectedIds.includes(String(c.id)))
                 .map(c => (
@@ -369,7 +369,7 @@ export default function Analytics() {
               }}
               disabled={!currentChoice}
             >
-              Add
+              Adicionar
             </Button>
           </div>
           {selectedIds.length > 0 && (
@@ -401,7 +401,7 @@ export default function Analytics() {
       {filtered.length === 0 ? (
         <Card>
           {campaigns.length === 0 ? (
-            'No campaigns to analyze.'
+            'Nenhuma campanha para analisar.'
           ) : (
             'No matching campaigns.'
           )}
@@ -411,12 +411,12 @@ export default function Analytics() {
           <table className="w-full table-auto border-collapse">
             <thead>
               <tr>
-                <th>Name</th>
-                <th className="text-center">Leads</th>
-                <th className="text-center">Sent</th>
+                <th>Nome</th>
+                <th className="text-center">Contatos</th>
+                <th className="text-center">Enviados</th>
                 <th className="text-center">Pending</th>
                 <th className="text-center">Progress</th>
-                <th className="text-center">Replies</th>
+                <th className="text-center">Respostas</th>
                 <th className="text-center">Reply Rate</th>
                 <th className="text-center">Open Rate</th>
                 <th className="text-center">Click Rate</th>

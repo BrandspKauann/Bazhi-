@@ -50,7 +50,7 @@ export default function LeadDetail() {
   if (!lead) {
     return (
       <div className="min-h-0 flex-1 overflow-y-auto p-8">
-        <p className="text-gray-500">Loading…</p>
+        <p className="text-gray-500">Carregando…</p>
       </div>
     );
   }
@@ -62,7 +62,7 @@ export default function LeadDetail() {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <div className="text-sm text-gray-500 mb-1">
-            <Link to="/leads" className="text-teal-500 hover:underline">Leads</Link>
+            <Link to="/leads" className="text-teal-500 hover:underline">Contatos</Link>
             <span className="mx-2">/</span>
             <span className="font-mono text-xs">#{lead.id}</span>
           </div>
@@ -89,7 +89,7 @@ export default function LeadDetail() {
 
       <Card className="p-4">
         <h2 className="text-lg font-semibold mb-3 border-b border-gray-200 dark:border-gray-700 pb-2">
-          Campaigns
+          Campanhas
         </h2>
         {lead.campaigns?.length ? (
           <ul className="space-y-3">
@@ -172,7 +172,7 @@ export default function LeadDetail() {
                 }`}
               >
                 <div className="font-medium">
-                  {row.direction === 'outbound' ? 'Sent' : 'Received'}{' '}
+                  {row.direction === 'outbound' ? 'Enviados' : 'Received'}{' '}
                   {row.kind && row.kind !== 'sent' ? `· ${row.kind.replace(/_/g, ' ')}` : ''}
                 </div>
                 <div className="text-gray-500 text-xs mt-0.5">

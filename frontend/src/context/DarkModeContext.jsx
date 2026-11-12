@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, useContext, useCallback } from 'react';
-import { enable, disable } from 'darkreader';
+
 
 const STORAGE_KEY = 'darkreader';
 
@@ -12,9 +12,9 @@ function readDarkThemePreference() {
     const s = localStorage.getItem(STORAGE_KEY);
     if (s === 'on' || s === 'dark') return 'dark';
     if (s === 'off' || s === 'light') return 'light';
-    return 'system';
+    return s === 'system' ? 'system' : 'dark';
   } catch {
-    return 'system';
+    return 'dark';
   }
 }
 
@@ -49,10 +49,10 @@ export function DarkModeProvider({ children }) {
 
   const applyEffectiveDark = useCallback(on => {
     if (on) {
-      enable(DARKREADER_SETTINGS);
+
       applyRootClass(true);
     } else {
-      disable();
+
       applyRootClass(false);
     }
     setDarkMode(on);

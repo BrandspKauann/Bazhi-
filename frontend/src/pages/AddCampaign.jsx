@@ -14,10 +14,10 @@ export default function AddCampaign() {
     sending_hours_end: '17:00',
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     stop_on_reply: true,
-    // Tracking (off by default)
+    // Rastreamento (off by default)
     track_opens: false,
     track_clicks: false,
-    // Unsubscribe
+    // Cancelamento de inscrição
     add_unsubscribe_header: true,
     add_one_click_unsubscribe: true,
     // sending format
@@ -88,7 +88,7 @@ export default function AddCampaign() {
 
   return (
     <div className="min-h-0 max-w-xl flex-1 overflow-y-auto p-8">
-      <h1 className="text-2xl font-bold mb-4">Create campaign</h1>
+      <h1 className="text-2xl font-bold mb-4">Criar campanha</h1>
       {message && (
         <div className={message.type === 'error' ? 'text-red-600' : 'text-green-600'}>
           {message.text}
@@ -97,7 +97,7 @@ export default function AddCampaign() {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <Input
-            label="Campaign name *"
+            label="Nome da campanha *"
             name="name"
             value={form.name}
             onChange={handleChange}
@@ -106,7 +106,7 @@ export default function AddCampaign() {
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700">
-            Sending inboxes (optional)
+            Contas de envio (opcional)
           </label>
           <div className="mt-1 space-y-1 max-h-52 overflow-y-auto p-2 border border-gray-300 rounded">
             {inboxes.map(i => (
@@ -126,7 +126,7 @@ export default function AddCampaign() {
           </div>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">Sending days</label>
+          <label className="block text-sm font-medium text-gray-700">Dias de envio</label>
           <div className="mt-1 flex flex-wrap gap-2">
             {[0,1,2,3,4,5,6].map(d => (
               <label key={d} className="flex items-center gap-2">
@@ -138,7 +138,7 @@ export default function AddCampaign() {
                   onChange={handleCheckboxChange}
                 />
                 <span className="text-sm">
-                  {['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][d]}
+                  {['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'][d]}
                 </span>
               </label>
             ))}
@@ -146,7 +146,7 @@ export default function AddCampaign() {
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Sending window start</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Início do horário de envio</label>
             <input
               type="time"
               name="sending_hours_start"
@@ -156,7 +156,7 @@ export default function AddCampaign() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Sending window end</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Fim do horário de envio</label>
             <input
               type="time"
               name="sending_hours_end"
@@ -166,13 +166,13 @@ export default function AddCampaign() {
             />
           </div>
         </div>
-        {/* Timezone */}
+        {/* Fuso horário */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Timezone</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Fuso horário</label>
           <div className="relative">
             <input
               type="text"
-              placeholder="Search timezone…"
+              placeholder="Buscar fuso horário…"
               value={tzSearch || form.timezone}
               onFocus={e => { setTzSearch(''); e.target.select(); }}
               onChange={e => { setTzSearch(e.target.value); }}
@@ -192,11 +192,11 @@ export default function AddCampaign() {
                     {t.label}
                   </li>
                 ))}
-                {filteredTz.length === 0 && <li className="px-3 py-2 text-sm text-gray-400">No match</li>}
+                {filteredTz.length === 0 && <li className="px-3 py-2 text-sm text-gray-400">Nenhum resultado</li>}
               </ul>
             )}
           </div>
-          <p className="text-xs text-gray-400 mt-1">Sending hours above are interpreted in this timezone</p>
+          <p className="text-xs text-gray-400 mt-1">Os horários de envio acima seguem este fuso horário</p>
         </div>
         <div>
           <label className="flex items-center gap-2">
@@ -206,32 +206,32 @@ export default function AddCampaign() {
               checked={form.stop_on_reply}
               onChange={handleChange}
             />
-            <span className="text-sm">Stop sending sequence when lead replies</span>
+            <span className="text-sm">Interromper a sequência quando o contato responder</span>
           </label>
         </div>
 
-        {/* Tracking */}
+        {/* Rastreamento */}
         <div className="border-t pt-3">
-          <p className="text-sm font-semibold text-gray-700 mb-1">Tracking</p>
+          <p className="text-sm font-semibold text-gray-700 mb-1">Rastreamento</p>
           <div className="space-y-1 pl-1">
             <label className="flex items-center gap-2">
               <input type="checkbox" name="track_opens" checked={form.track_opens} onChange={handleChange} />
-              <span className="text-sm">Track email opens</span>
+              <span className="text-sm">Rastrear aberturas dos e-mails</span>
             </label>
             <label className="flex items-center gap-2">
               <input type="checkbox" name="track_clicks" checked={form.track_clicks} onChange={handleChange} />
-              <span className="text-sm">Track link clicks</span>
+              <span className="text-sm">Rastrear cliques nos links</span>
             </label>
           </div>
         </div>
 
-        {/* Unsubscribe */}
+        {/* Cancelamento de inscrição */}
         <div className="border-t pt-3">
-          <p className="text-sm font-semibold text-gray-700 mb-1">Unsubscribe</p>
+          <p className="text-sm font-semibold text-gray-700 mb-1">Cancelamento de inscrição</p>
           <div className="space-y-1 pl-1">
             <label className="flex items-center gap-2">
               <input type="checkbox" name="add_unsubscribe_header" checked={form.add_unsubscribe_header} onChange={handleChange} />
-              <span className="text-sm">Add List-Unsubscribe header (recommended)</span>
+              <span className="text-sm">Adicionar cabeçalho de cancelamento de inscrição (List-Cancelamento de inscrição, recomendado)</span>
             </label>
             <label className={`flex items-center gap-2 ${form.add_unsubscribe_header ? '' : 'opacity-50'}`}>
               <input
@@ -242,16 +242,16 @@ export default function AddCampaign() {
                 disabled={!form.add_unsubscribe_header}
               />
               <span className="text-sm">
-                Include one-click unsubscribe (List-Unsubscribe-Post) — required by Gmail/Yahoo for bulk senders;
-                some senders disable it if Gmail routes mail to Promotions
+                Incluir cancelamento de inscrição com um clique (List-Cancelamento de inscrição-Post) — obrigatório pelo Gmail/Yahoo para envios em massa;
+                alguns remetentes desativam esta opção quando o Gmail direciona as mensagens para Promoções
               </span>
             </label>
           </div>
         </div>
 
-        {/* Sending format */}
+        {/* Formato de envio */}
         <div className="border-t pt-3">
-          <p className="text-sm font-semibold text-gray-700 mb-1">Sending format</p>
+          <p className="text-sm font-semibold text-gray-700 mb-1">Formato de envio</p>
           <div className="space-y-1 pl-1">
             <label className="flex items-center gap-2">
               <input
@@ -261,7 +261,7 @@ export default function AddCampaign() {
                 disabled={form.send_all_as_text}
                 onChange={handleChange}
               />
-              <span className="text-sm">Send first email as plain text (improves deliverability)</span>
+              <span className="text-sm">Enviar o primeiro e-mail como texto simples (melhora a entrega)</span>
             </label>
             <label className="flex items-center gap-2">
               <input
@@ -274,24 +274,24 @@ export default function AddCampaign() {
                   send_first_as_text: e.target.checked ? false : f.send_first_as_text,
                 }))}
               />
-              <span className="text-sm">Send all emails as plain text</span>
+              <span className="text-sm">Enviar todos os e-mails como texto simples</span>
             </label>
           </div>
         </div>
 
-        {/* Provider matching */}
+        {/* Correspondência de provedor */}
         <div className="border-t pt-3">
-          <p className="text-sm font-semibold text-gray-700 mb-1">Provider matching</p>
+          <p className="text-sm font-semibold text-gray-700 mb-1">Correspondência de provedor</p>
           <div className="space-y-1 pl-1">
             <label className="flex items-center gap-2">
               <input type="checkbox" name="match_lead_provider" checked={form.match_lead_provider} onChange={handleChange} />
-              <span className="text-sm">Match lead provider — send from Google inboxes to Google leads, Office 365 to Office 365 (falls back to any inbox if none match)</span>
+              <span className="text-sm">Usar o mesmo provedor do contato — enviar de contas Google para contatos Google e de Office 365 para Office 365 (usar qualquer conta se não houver correspondência)</span>
             </label>
           </div>
         </div>
 
         <div className="flex gap-2">
-          <Button type="submit" variant="default">Create campaign</Button>
+          <Button type="submit" variant="default">Criar campanha</Button>
         </div>
       </form>
     </div>

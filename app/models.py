@@ -964,3 +964,14 @@ WEBHOOK_EVENT_TYPES = [
     "token_expired",       # OAuth refresh or SMTP/IMAP login failed (see data.provider/error_type)
     "inbox.send_failing",  # An SMTP inbox failed to send repeatedly (see data.last_send_error)
 ]
+
+class ProspectList(Base):
+    """Private saved selection of up to fifty Receita companies."""
+    __tablename__ = 'prospect_list'
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    user_id = Column(Integer, ForeignKey('app_user.id'), nullable=False, index=True)
+    name = Column(String(150), nullable=False)
+    cnpjs = Column(JSON, nullable=False, default=list)
+    companies = Column(JSON, nullable=False, default=list)
+    filters = Column(JSON, nullable=False, default=dict)
+    created_at = Column(DateTime, default=_utcnow, nullable=False)

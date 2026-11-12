@@ -193,7 +193,7 @@ export async function postJsonForDownload(path, data) {
 }
 
 export const api = {
-  get: (path) => request(path, { method: 'GET' }),
+  get: (path, options = {}) => request(path, { ...options, method: 'GET' }),
   post: (path, data) => request(path, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) }),
   put: (path, data) => request(path, { method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) }),
   patch: (path, data) => request(path, { method: 'PATCH', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) }),

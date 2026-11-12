@@ -156,7 +156,7 @@ export default function AppNotices() {
           ) : (
             <>
               <div className={`text-xs font-medium ${updateSecurity ? 'text-red-700' : 'text-gray-900 dark:text-gray-100'}`}>
-                {updateSecurity ? 'Security update' : 'Quickly update'}
+                {updateSecurity ? 'Security update' : 'Bazhi update'}
               </div>
               <div className="mt-0.5 text-xs leading-relaxed text-gray-600 dark:text-gray-300">
                 A newer version (v{data.latest_version}) is available.
@@ -188,7 +188,7 @@ export default function AppNotices() {
             onClick={() => navigate('/settings?section=about')}
             className="text-[11px] text-gray-400 underline-offset-2 transition-colors hover:text-gray-700 hover:underline dark:hover:text-gray-200"
           >
-            Details
+            Detalhes
           </button>
           <button
             type="button"

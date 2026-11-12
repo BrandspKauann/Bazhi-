@@ -60,7 +60,7 @@ const STAGE_LABELS = {
 function diagnosticReportToText(report) {
   if (!report) return '';
   const lines = [
-    'Quickly SMTP diagnostic report',
+    'Bazhi SMTP diagnostic report',
     `Target: ${report.host}:${report.port}  mode=${report.mode}`,
     `Result: ${report.ok ? 'PASS' : 'FAIL'}  (${report.duration_ms ?? 0} ms)`,
     '',
@@ -457,7 +457,7 @@ function InboxTrackingOptions({
                           {r.kind === 'beacon'
                             ? beaconConnecting && reuseBusyKey === r.key
                               ? 'Connecting…'
-                              : 'Connect'
+                              : 'Conectar'
                             : 'Use & verify'}
                         </button>
                       </li>
@@ -485,7 +485,7 @@ function InboxTrackingOptions({
         <div className="ml-6 min-w-0 max-w-full border-l-2 border-gray-200 pl-3 py-0.5">
           <CollapsibleInfo>
             <p>
-              Open, click, and unsubscribe links use your Quickly app URL{' '}
+              Open, click, and unsubscribe links use your Bazhi app URL{' '}
               <span className="text-gray-500 font-mono break-all">({hostHint})</span>. No Beacon service and no extra DNS records are required.
             </p>
           </CollapsibleInfo>
@@ -512,7 +512,7 @@ function InboxTrackingOptions({
                   Connected: <code className="text-teal-800 break-all">{beaconBaseUrl || ''}</code>
                 </p>
                 <Button type="button" size="sm" variant="outline" className="shrink-0 self-start" onClick={onDisconnectBeacon}>
-                  Disconnect
+                  Desconectar
                 </Button>
               </div>
             ) : (
@@ -531,20 +531,20 @@ function InboxTrackingOptions({
                   onClick={onConnectBeacon}
                   className="self-start shrink-0 px-2 py-1 text-xs rounded border border-gray-300 bg-white hover:bg-gray-50 disabled:opacity-50"
                 >
-                  {beaconConnecting ? 'Connecting…' : 'Connect'}
+                  {beaconConnecting ? 'Connecting…' : 'Conectar'}
                 </button>
               </div>
             )}
           </div>
           {variant === 'add' && (
             <p className="text-xs text-amber-800 bg-amber-50 border border-amber-100 rounded px-2 py-1">
-              Connect is available after the inbox exists — finish adding the inbox, then open <strong>Edit</strong> and choose Beacon (Recommended) here.
+              Connect is available after the inbox exists — finish adding the inbox, then open <strong>Editar</strong> and choose Beacon (Recommended) here.
             </p>
           )}
           <CollapsibleInfo>
             <p className="font-medium text-gray-700">How Beacon works</p>
             <p>
-              Run the Beacon service on the HTTPS hostname you want for tracking links. While Quickly is not connected yet, open Beacon&apos;s root URL in a browser and copy the <strong>setup URL</strong> (it includes{' '}
+              Run the Beacon service on the HTTPS hostname you want for tracking links. While Bazhi is not connected yet, open Beacon&apos;s root URL in a browser and copy the <strong>setup URL</strong> (it includes{' '}
               <code className="bg-gray-100 px-0.5 rounded">?token=</code>
               ). Paste it above and click Connect. On Beacon, set{' '}
               <code className="bg-gray-100 px-0.5 rounded">BEACON_PUBLIC_BASE_URL</code>
@@ -596,7 +596,7 @@ function InboxTrackingOptions({
                 onClick={verifyDns}
                 className="self-start shrink-0 px-2 py-1 text-xs rounded border border-gray-300 bg-white hover:bg-gray-50 disabled:opacity-50"
               >
-                {verifyState === 'checking' ? 'Verifying…' : 'Verify'}
+                {verifyState === 'checking' ? 'Verifying…' : 'Verificar'}
               </button>
             </div>
             {verifyState === 'checking' && verifyMsg && (
@@ -613,12 +613,12 @@ function InboxTrackingOptions({
             )}
             <CollapsibleInfo>
               <p className="font-medium text-gray-700">DNS setup (CNAME)</p>
-              <p>Add a <code>CNAME</code> at your DNS host pointing your tracking hostname at this Quickly server:</p>
+              <p>Add a <code>CNAME</code> at your DNS host pointing your tracking hostname at this Bazhi server:</p>
               <pre className="bg-white border rounded p-2 overflow-x-auto whitespace-pre-wrap break-all text-gray-700 text-[11px]">
                 {`${(trackingDomain || '').trim() || 'mail.yourdomain.com'}  CNAME  ${cnameTarget || 'your-app-host'}.`}
               </pre>
               <p>
-                Caddy requests a certificate on the first HTTPS hit. Select <strong>DNS setup</strong>, enter the hostname, run <strong>Verify</strong>, then save the inbox.
+                Caddy requests a certificate on the first HTTPS hit. Select <strong>DNS setup</strong>, enter the hostname, run <strong>Verificar</strong>, then save the inbox.
               </p>
             </CollapsibleInfo>
           </div>
@@ -1556,9 +1556,9 @@ export default function Inboxes() {
     <div className="min-h-0 flex-1 overflow-y-auto p-8">
       {/* header with add button */}
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">Inboxes</h1>
+        <h1 className="text-2xl font-bold">Contas de e-mail</h1>
         <Button variant="default" onClick={() => { setForm(initialForm); setSmtpForm(initialSmtpForm); setAddTrackingMode('app'); setMessage(null); setAddSmtpDiagnose(null); setAddSmtpSendTestMsg(null); setAddSmtpSendTestTo(''); setAddSmtpShowSendTest(false); setShowAdd(true); }}>
-          Add Inbox
+          Adicionar conta de e-mail
         </Button>
       </div>
 
@@ -1569,7 +1569,7 @@ export default function Inboxes() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
           </div>
-          <p className="text-gray-500 text-sm">No inboxes yet. Click <span className="font-medium text-gray-700">Add Inbox</span> to get started.</p>
+          <p className="text-gray-500 text-sm">No inboxes yet. Click <span className="font-medium text-gray-700">Adicionar conta de e-mail</span> to get started.</p>
         </div>
       )}
       {inboxes.length > 0 && (
@@ -1619,12 +1619,12 @@ export default function Inboxes() {
                         <span className="text-gray-400"> / {maxToday} sent</span>
                       </span>
                       {inbox.paused
-                        ? <span className="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full font-medium">Paused</span>
+                        ? <span className="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full font-medium">Pausado</span>
                         : inbox.health === 'failing'
                           ? <span className="text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-medium" title={inbox.last_send_error || ''}>Failing</span>
                           : inbox.provider === 'smtp' && inbox.health === 'unknown'
                             ? <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full font-medium">Unknown</span>
-                            : <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">Active</span>
+                            : <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">Ativo</span>
                       }
                       {expiredInboxIds.has(inbox.id) && (
                         <span className="text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-medium">
@@ -1739,7 +1739,7 @@ export default function Inboxes() {
                                       <input type="number" value={editingSmtp.imap_port} onChange={e => setEditingSmtp(prev => ({ ...prev, imap_port: +e.target.value }))} min={1} max={65535} className="mt-1 block w-full border-gray-300 rounded-md text-sm" />
                                     </div>
                                     <div className="col-span-2">
-                                      <label className="block text-xs font-medium text-gray-700">Username</label>
+                                      <label className="block text-xs font-medium text-gray-700">Usuário</label>
                                       <input type="text" value={editingSmtp.imap_username} onChange={e => setEditingSmtp(prev => ({ ...prev, imap_username: e.target.value }))} autoComplete="off" className="mt-1 block w-full border-gray-300 rounded-md text-sm" />
                                     </div>
                                   </div>
@@ -1785,7 +1785,7 @@ export default function Inboxes() {
                                         className="flex-1 min-w-0 border-gray-300 rounded-md text-sm"
                                       />
                                       <Button type="button" size="sm" variant="outline" onClick={sendSmtpTestEmail} disabled={smtpSendTestBusy}>
-                                        {smtpSendTestBusy ? 'Sending…' : 'Send'}
+                                        {smtpSendTestBusy ? 'Sending…' : 'Enviar'}
                                       </Button>
                                     </div>
                                     {smtpSendTestMsg && (
@@ -1915,8 +1915,8 @@ export default function Inboxes() {
                         </div>
                       </div>
                       <div className="flex gap-2 pt-1">
-                        <Button type="submit" size="sm" variant="default">Save</Button>
-                        <Button type="button" size="sm" variant="outline" onClick={tryCloseEdit}>Cancel</Button>
+                        <Button type="submit" size="sm" variant="default">Salvar</Button>
+                        <Button type="button" size="sm" variant="outline" onClick={tryCloseEdit}>Cancelar</Button>
                       </div>
                     </form>
                   </div>
@@ -1965,14 +1965,14 @@ export default function Inboxes() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-1.5">
                         {selectedInbox.paused
-                          ? <span className="text-xs bg-orange-100 text-orange-700 px-2.5 py-1 rounded-full font-medium">Paused</span>
+                          ? <span className="text-xs bg-orange-100 text-orange-700 px-2.5 py-1 rounded-full font-medium">Pausado</span>
                           : selectedInbox.health === 'failing'
                             ? <span className="text-xs bg-red-100 text-red-700 px-2.5 py-1 rounded-full font-medium">Failing</span>
                             : selectedInbox.health === 'ok'
                               ? <span className="text-xs bg-green-100 text-green-700 px-2.5 py-1 rounded-full font-medium">Healthy</span>
                               : selectedInbox.provider === 'smtp'
                                 ? <span className="text-xs bg-gray-100 text-gray-600 px-2.5 py-1 rounded-full font-medium">Unknown</span>
-                                : <span className="text-xs bg-green-100 text-green-700 px-2.5 py-1 rounded-full font-medium">Active</span>
+                                : <span className="text-xs bg-green-100 text-green-700 px-2.5 py-1 rounded-full font-medium">Ativo</span>
                         }
                       </div>
                       <span className="text-xs bg-sky-100 text-sky-700 px-2.5 py-1 rounded-full font-medium capitalize">{selectedInbox.provider || 'gmail'}</span>
@@ -2022,7 +2022,7 @@ export default function Inboxes() {
 
                     {/* Settings */}
                     <div className="space-y-2.5">
-                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Settings</p>
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Configurações</p>
                       <div className="flex justify-between text-sm">
                         <span className="text-gray-600">Max per day</span>
                         <span className="font-medium text-gray-900">{selectedInbox.max_emails_per_day}</span>
@@ -2097,10 +2097,10 @@ export default function Inboxes() {
                   {/* Action buttons */}
                   <div className="px-5 py-4 border-t border-gray-100 space-y-2">
                     <div className="flex gap-2">
-                      <Button variant="outline" size="sm" className="flex-1" onClick={() => openEdit(selectedInbox)}>Edit</Button>
+                      <Button variant="outline" size="sm" className="flex-1" onClick={() => openEdit(selectedInbox)}>Editar</Button>
                       {selectedInbox.paused
-                        ? <Button variant="outline" size="sm" className="flex-1 bg-green-50 text-green-700 border-green-300 hover:bg-green-100" onClick={() => resumeInbox(selectedInbox.id, selectedInbox.email)}>Resume</Button>
-                        : <Button variant="outline" size="sm" className="flex-1 bg-orange-50 text-orange-700 border-orange-300 hover:bg-orange-100" onClick={() => openPauseModal(selectedInbox)}>Pause</Button>
+                        ? <Button variant="outline" size="sm" className="flex-1 bg-green-50 text-green-700 border-green-300 hover:bg-green-100" onClick={() => resumeInbox(selectedInbox.id, selectedInbox.email)}>Retomar</Button>
+                        : <Button variant="outline" size="sm" className="flex-1 bg-orange-50 text-orange-700 border-orange-300 hover:bg-orange-100" onClick={() => openPauseModal(selectedInbox)}>Pausar</Button>
                       }
                     </div>
                     {(selectedInbox.provider === 'gmail' || selectedInbox.provider === 'office365') && (
@@ -2142,7 +2142,7 @@ export default function Inboxes() {
           onClick={() => { if (addBackdropDown.current) { setShowAdd(false); setMessage(null); setAddTrackingMode('app'); setAddSmtpDiagnose(null); setAddSmtpSendTestMsg(null); setAddSmtpShowSendTest(false); } }}
         >
           <div data-darkreader-ignore className="p-6 rounded-xl shadow-lg w-full min-w-0 max-w-md max-h-[90vh] overflow-y-auto overflow-x-hidden mx-auto" style={{ backgroundColor: 'white' }} onClick={e => e.stopPropagation()}>
-            <h2 className="text-xl font-semibold mb-2">Add Inbox</h2>
+            <h2 className="text-xl font-semibold mb-2">Adicionar conta de e-mail</h2>
             {message && <div className={message.type === 'error' ? 'text-red-600' : 'text-green-600'}>{message.text}</div>}
             <form onSubmit={submit} className="space-y-4 min-w-0 max-w-full">
               <div>
@@ -2201,11 +2201,11 @@ export default function Inboxes() {
                     </div>
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-gray-700">Username</label>
+                    <label className="block text-xs font-medium text-gray-700">Usuário</label>
                     <input type="text" value={smtpForm.smtp_username} onChange={e => { if (message?.type === 'error') setMessage(null); setSmtpForm(f => ({ ...f, smtp_username: e.target.value })); }} autoComplete="off" className="mt-1 block w-full border-gray-300 rounded-md text-sm" />
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-gray-700">Password</label>
+                    <label className="block text-xs font-medium text-gray-700">Senha</label>
                     <input type="password" value={smtpForm.smtp_password} onChange={e => { if (message?.type === 'error') setMessage(null); setSmtpForm(f => ({ ...f, smtp_password: e.target.value })); }} autoComplete="new-password" className="mt-1 block w-full border-gray-300 rounded-md text-sm" />
                   </div>
                   <div className="flex gap-4 text-sm text-gray-700">
@@ -2231,12 +2231,12 @@ export default function Inboxes() {
                           <input type="number" value={smtpForm.imap_port} onChange={e => setSmtpForm(f => ({ ...f, imap_port: +e.target.value }))} min={1} max={65535} className="mt-1 block w-full border-gray-300 rounded-md text-sm" />
                         </div>
                         <div className="col-span-2">
-                          <label className="block text-xs font-medium text-gray-700">Username</label>
+                          <label className="block text-xs font-medium text-gray-700">Usuário</label>
                           <input type="text" value={smtpForm.imap_username} onChange={e => setSmtpForm(f => ({ ...f, imap_username: e.target.value }))} autoComplete="off" className="mt-1 block w-full border-gray-300 rounded-md text-sm" />
                         </div>
                       </div>
                       <div>
-                        <label className="block text-xs font-medium text-gray-700">Password</label>
+                        <label className="block text-xs font-medium text-gray-700">Senha</label>
                         <input type="password" value={smtpForm.imap_password} onChange={e => { if (message?.type === 'error') setMessage(null); setSmtpForm(f => ({ ...f, imap_password: e.target.value })); }} autoComplete="new-password" className="mt-1 block w-full border-gray-300 rounded-md text-sm" />
                       </div>
                       <label className="flex items-center gap-1.5 cursor-pointer text-sm text-gray-700">
@@ -2310,7 +2310,7 @@ export default function Inboxes() {
                             .finally(() => setAddSmtpSendTestBusy(false));
                         }}
                       >
-                        {addSmtpSendTestBusy ? 'Sending…' : 'Send'}
+                        {addSmtpSendTestBusy ? 'Sending…' : 'Enviar'}
                       </Button>
                     </div>
                     {addSmtpSendTestMsg && (
@@ -2411,7 +2411,7 @@ export default function Inboxes() {
                   {form.provider === 'gmail' ? 'Connect with Google' : form.provider === 'office365' ? 'Connect with Microsoft' : 'Add inbox'}
                 </Button>
                 <Button type="button" variant="outline" onClick={() => { setShowAdd(false); setMessage(null); setAddTrackingMode('app'); setAddSmtpDiagnose(null); setAddSmtpSendTestMsg(null); setAddSmtpShowSendTest(false); }}>
-                  Cancel
+                  Cancelar
                 </Button>
               </div>
               {(form.provider === 'gmail' || form.provider === 'office365') && (
@@ -2448,7 +2448,7 @@ export default function Inboxes() {
             <div className="flex gap-2 justify-end">
               <Button size="sm" variant="outline" onClick={() => { setShowEditWarning(false); setEditWarningCloseSidebar(false); }}>Keep editing</Button>
               <Button size="sm" variant="destructive" onClick={() => { setShowEditWarning(false); closeEdit(); if (editWarningCloseSidebar) { setSelectedInbox(null); setEditWarningCloseSidebar(false); } }}>Discard</Button>
-              <Button size="sm" variant="default" onClick={async () => { setShowEditWarning(false); setEditWarningCloseSidebar(false); await doSave(); }}>Save</Button>
+              <Button size="sm" variant="default" onClick={async () => { setShowEditWarning(false); setEditWarningCloseSidebar(false); await doSave(); }}>Salvar</Button>
             </div>
           </div>
         </div>
@@ -2494,7 +2494,7 @@ export default function Inboxes() {
             </div>
 
             <div className="flex gap-2 justify-end">
-              <Button size="sm" variant="outline" onClick={() => setShowPauseModal(false)}>Cancel</Button>
+              <Button size="sm" variant="outline" onClick={() => setShowPauseModal(false)}>Cancelar</Button>
               <Button
                 size="sm"
                 variant="default"

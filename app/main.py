@@ -166,7 +166,7 @@ async def lifespan(app: FastAPI):
         schedule.shutdown()
 
 
-app = FastAPI(title="Quickly", lifespan=lifespan)
+app = FastAPI(title="Bazhi", lifespan=lifespan)
 
 # ---------------------------------------------------------------------------
 # Security middleware (CSP, HSTS, X-Frame-Options, …)
@@ -245,6 +245,8 @@ _auth_deps = [Depends(_auth_dep)]
 
 app.include_router(inbox.router, dependencies=_auth_deps)
 app.include_router(leads.router, dependencies=_auth_deps)
+from app.routers import receita
+app.include_router(receita.router, dependencies=_auth_deps)
 app.include_router(campaigns.router, dependencies=_auth_deps)
 app.include_router(test_mode.router, dependencies=_auth_deps)
 app.include_router(gmail_oauth.router)

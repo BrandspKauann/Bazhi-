@@ -38,7 +38,7 @@ export function ConfirmProvider({ children }) {
             <p className="mb-4 break-words text-gray-800">{dialog.message}</p>
             <div className="flex justify-end gap-2">
               <Button variant="outline" size="sm" onClick={() => handleResult(false)}>
-                Cancel
+                Cancelar
               </Button>
               <Button variant="default" size="sm" onClick={() => handleResult(true)}>
                 OK

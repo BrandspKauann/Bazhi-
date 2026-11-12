@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import logo from '../../assets/quickly_logo.svg';
+import logo from '../../assets/bazhi-logo.svg';
 import {
   RiSendPlaneLine,
   RiLineChartLine,
@@ -21,14 +21,15 @@ import { useSystemHealth } from '../../context/SystemHealthContext';
 
 // links including icons
 const links = [
-  { to: '/analytics', label: 'Analytics', icon: <RiLineChartLine size={20} /> },
-  { to: '/campaigns', label: 'Campaigns', icon: <RiSendPlaneLine size={20} /> },
-  { to: '/leads', label: 'Leads', icon: <RiContactsLine size={20} /> },
-  { to: '/inboxes', label: 'Inboxes', icon: <RiMailLine size={20} /> },
-  { to: '/unibox', label: 'Unibox', icon: <RiInboxLine size={20} /> },
-  { to: '/schedule', label: 'Schedule', icon: <RiCalendarScheduleLine size={20} /> },
-  { to: '/notifications', label: 'Notifications', icon: <RiNotification3Line size={20} /> },
-  { to: '/settings#general', label: 'Settings', icon: <RiSettingsLine size={20} /> },
+  { to: '/receita', label: 'Prospecção', icon: <RiContactsLine size={20} /> },
+  { to: '/analytics', label: 'Relatórios', icon: <RiLineChartLine size={20} /> },
+  { to: '/campaigns', label: 'Campanhas', icon: <RiSendPlaneLine size={20} /> },
+  { to: '/leads', label: 'Contatos', icon: <RiContactsLine size={20} /> },
+  { to: '/inboxes', label: 'Contas de e-mail', icon: <RiMailLine size={20} /> },
+  { to: '/unibox', label: 'Caixa de entrada', icon: <RiInboxLine size={20} /> },
+  { to: '/schedule', label: 'Agendamento', icon: <RiCalendarScheduleLine size={20} /> },
+  { to: '/notifications', label: 'Notificações', icon: <RiNotification3Line size={20} /> },
+  { to: '/settings#general', label: 'Configurações', icon: <RiSettingsLine size={20} /> },
 ];
 
 const APP_VERSION = '0.1.0';
@@ -75,7 +76,7 @@ function buildBugUrl() {
     '**Environment**',
     `- OS: ${getOS()}`,
     `- Browser: ${getBrowser()}`,
-    `- Quickly version: ${APP_VERSION}`,
+    `- Bazhi version: ${APP_VERSION}`,
   ].join('\n');
   return `https://github.com/AbdelftahZowail/Quickly/issues/new?labels=bug&title=%5BBug%5D%20&body=${encodeURIComponent(body)}`;
 }
@@ -125,7 +126,7 @@ export default function Sidebar({ collapsed, onToggle }) {
 
   return (
     <nav
-      className={`fixed top-0 left-0 z-40 h-full bg-gray-800 text-gray-300 flex flex-col p-3 transition-width duration-200 ${
+      className={`bazhi-sidebar fixed top-0 left-0 z-40 h-full bg-gray-800 text-gray-300 flex flex-col p-3 transition-width duration-200 ${
         widthClass
       }`}
     >
@@ -134,11 +135,11 @@ export default function Sidebar({ collapsed, onToggle }) {
         className={`mb-8 flex items-center gap-2 no-underline hover:no-underline ${
           justifyLogo
         }`}
-        title="Home"
+        title="Início"
       >
-        <img src={logo} alt="Quickly logo" className="h-8 w-8" />
+        <img src={logo} alt="Bazhi logo" className="h-8 w-8" />
         {!collapsed && (
-          <span className="text-primary font-extrabold text-xl">Quickly</span>
+          <span className="text-white font-extrabold text-xl">Bazhi</span>
         )}
       </NavLink>
       <div className="flex flex-col gap-2">
@@ -202,11 +203,11 @@ export default function Sidebar({ collapsed, onToggle }) {
                 className={`absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-gray-800 ${healthDotColor}`}
               />
             </span>
-            {!collapsed && <span className="ml-2">System Health</span>}
+            {!collapsed && <span className="ml-2">Saúde do sistema</span>}
           </NavLink>
           {collapsed && (
             <span className="absolute left-full top-1/2 transform -translate-y-1/2 ml-2 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-700 text-white text-xs rounded px-2 py-1 whitespace-nowrap z-10 pointer-events-none shadow-md">
-              System Health
+              Saúde do sistema
             </span>
           )}
         </div>
@@ -220,13 +221,13 @@ export default function Sidebar({ collapsed, onToggle }) {
             }`}
           >
             <span className="flex-shrink-0"><RiInformationLine size={20} /></span>
-            {!collapsed && <span className="ml-2">Help</span>}
+            {!collapsed && <span className="ml-2">Ajuda</span>}
           </button>
 
           {/* Collapsed tooltip */}
           {collapsed && (
             <span className="absolute left-full top-1/2 transform -translate-y-1/2 ml-2 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-700 text-white text-xs rounded px-2 py-1 whitespace-nowrap z-10 pointer-events-none shadow-md">
-              Help
+              Ajuda
             </span>
           )}
 
@@ -248,7 +249,7 @@ export default function Sidebar({ collapsed, onToggle }) {
                 onClick={() => setHelpOpen(false)}
                 className="block px-3 py-2 text-sm text-gray-300 hover:text-primary hover:bg-gray-700 !no-underline"
               >
-                Deliverability Tips
+                Dicas de entrega
               </NavLink>
 
               <div className="border-t border-gray-700" />
@@ -284,7 +285,7 @@ export default function Sidebar({ collapsed, onToggle }) {
           onClick={onToggle}
           onMouseDown={e => e.preventDefault()}
           className="text-gray-400 hover:text-primary focus:outline-none focus-visible:outline-none focus:ring-0 bg-transparent focus:bg-transparent active:bg-transparent transition-transform duration-200 active:scale-90"
-          aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          aria-label={collapsed ? 'Expandir menu' : 'Recolher menu'}
         >
           <RiSidebarFoldLine
             size={24}

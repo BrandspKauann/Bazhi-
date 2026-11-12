@@ -39,3 +39,14 @@ AGENTS.md
 tasks.md
 .omo/
 .commandcode/
+# Bazhi: local configuration, private datasets and generated artifacts
+.env.*
+!.env.example
+work/
+outputs/
+compose.local.yml
+*.duckdb
+*.duckdb.wal
+*.parquet
+*.qbk
+frontend/dist/

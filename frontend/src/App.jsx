@@ -1,3 +1,4 @@
+import Receita from './pages/Receita';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import Layout from './components/Layout';
@@ -60,6 +61,7 @@ function AppRoutes() {
               <Route path="/campaigns" element={<Campaigns />} />
               <Route path="/campaigns/add" element={<AddCampaign />} />
               <Route path="/campaigns/:id" element={<CampaignDetail />} />
+              <Route path="/receita" element={<Receita />} />
               <Route path="/leads" element={<Leads />} />
               <Route path="/leads/:id" element={<LeadDetail />} />
               <Route path="/inboxes" element={<Inboxes />} />

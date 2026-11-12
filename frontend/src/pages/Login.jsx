@@ -1,3 +1,4 @@
+import bazhiLogo from '../assets/bazhi-logo.svg';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { FileUploadArea } from '../components/ui/FileUploadArea';
@@ -18,7 +19,26 @@ function parseDetailMessage(text) {
 }
 
 export default function Login() {
-  const { setupComplete } = useAuth();
+  const { setupComplete, refreshToken } = useAuth();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [loginError, setLoginError] = useState('');
+  const [loginBusy, setLoginBusy] = useState(false);
+  const localLogin = async (event) => {
+    event.preventDefault();
+    setLoginBusy(true);
+    setLoginError('');
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST', credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
+      if (!response.ok) throw new Error('Usuário ou senha inválidos.');
+      if (!(await refreshToken())) throw new Error('Não foi possível iniciar a sessão.');
+    } catch (error) { setLoginError(error.message); }
+    finally { setLoginBusy(false); }
+  };
   const [restoreExpanded, setRestoreExpanded] = useState(false);
   const [restoreFile, setRestoreFile] = useState(null);
   const [restoreFileKey, setRestoreFileKey] = useState(0);
@@ -84,23 +104,24 @@ export default function Login() {
   };
 
   const heading = isFirstUser
-    ? 'Create your admin account'
-    : 'Sign in to your account';
+    ? 'Crie sua conta de administrador'
+    : 'Entre na sua conta';
 
   const googleLabel = isFirstUser
-    ? 'Create admin account with Google'
-    : 'Sign in with Google';
+    ? 'Criar administrador com Google'
+    : 'Entrar com Google';
 
   const microsoftLabel = isFirstUser
-    ? 'Create admin account with Microsoft'
-    : 'Sign in with Microsoft';
+    ? 'Criar administrador com Microsoft'
+    : 'Entrar com Microsoft';
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="max-w-md w-full space-y-8 p-8">
+    <div className="bazhi-auth min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="bazhi-card max-w-md w-full space-y-8 p-8 rounded-2xl border border-gray-200 bg-white">
         <div>
-          <h1 className="text-center text-3xl font-bold text-gray-900">
-            Quickly
+          <h1 className="flex justify-center items-center gap-3 text-3xl font-bold text-gray-900">
+            <img src={bazhiLogo} alt="Símbolo Bazhi" className="h-14 w-14" />
+            Bazhi
           </h1>
           <h2 className="mt-2 text-center text-lg text-gray-600">
             {heading}
@@ -108,6 +129,16 @@ export default function Login() {
         </div>
 
         <div className="mt-8 space-y-4">
+          {!isFirstUser && <form onSubmit={localLogin} className="space-y-4">
+            <label className="block text-sm font-medium text-gray-700">Usuário
+              <input required autoComplete="username" value={username} onChange={e => setUsername(e.target.value)} className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2" />
+            </label>
+            <label className="block text-sm font-medium text-gray-700">Senha
+              <input required type="password" autoComplete="current-password" value={password} onChange={e => setPassword(e.target.value)} className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2" />
+            </label>
+            {loginError && <p role="alert" className="text-sm text-red-600">{loginError}</p>}
+            <button disabled={loginBusy} className="w-full rounded-lg bg-primary px-4 py-2.5 text-white disabled:opacity-50">{loginBusy ? 'Entrando…' : 'Entrar com senha'}</button>
+          </form>}
           <a
             href="/oauth/app/google/authorize"
             className="w-full flex items-center justify-center gap-3 py-2.5 px-4 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
@@ -138,7 +169,7 @@ export default function Login() {
         {isFirstUser && (
           <>
             <p className="text-center text-sm text-gray-500">
-              The first account created becomes the admin.
+              A primeira conta criada será a de administrador.
             </p>
 
             <div className="mt-10 pt-8 border-t border-gray-200 space-y-3">
@@ -168,7 +199,7 @@ export default function Login() {
                     </button>
                   </div>
                   <p className="text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
-                    Use a Quickly backup file (<code className="text-[11px]">.qbk</code>). If the backup is encrypted, you need the password — losing it
+                    Use a Bazhi backup file (<code className="text-[11px]">.qbk</code>). If the backup is encrypted, you need the password — losing it
                     means the data in that file is unrecoverable. The optional hint is stored in plain text in the file.
                   </p>
                   <div className="flex items-stretch gap-2">

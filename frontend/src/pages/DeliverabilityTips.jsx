@@ -18,17 +18,17 @@ const sections = [
       {
         title: 'Verify your sending domain',
         body: 'Your domain needs four authentication records so mail servers trust your emails. SPF and DKIM are required.',
-        tag: 'Required',
+        tag: 'Obrigatório',
       },
       {
         title: 'Use a separate domain for cold outreach',
         body: 'Never send cold emails from your main business domain. Use a separate domain or subdomain just for outreach. If something goes wrong — high bounces, spam complaints — only that domain takes the hit. Your main domain stays clean.',
-        tag: 'Required',
+        tag: 'Obrigatório',
       },
       {
         title: 'Warm up new inboxes',
         body: 'Any new inbox must be warmed up before sending to real leads. Go to your inbox settings, open the inbox you want, and enable the warm-up toggle. Warming up gradually builds your sending reputation over 2-4 weeks. Skipping this is the most common reason emails land in spam.',
-        tag: 'Required',
+        tag: 'Obrigatório',
       },
       {
         title: 'Verify your contact list',
@@ -203,7 +203,7 @@ export default function DeliverabilityTips() {
 
       {/* Page header */}
       <div>
-        <h1 className="text-2xl font-semibold text-gray-800 mb-1">Deliverability Tips</h1>
+        <h1 className="text-2xl font-semibold text-gray-800 mb-1">Dicas de entrega</h1>
         <p className="text-sm text-gray-500">
           Best practices for landing in the inbox, getting read, and protecting your sender reputation.
         </p>

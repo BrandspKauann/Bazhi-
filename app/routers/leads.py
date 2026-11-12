@@ -161,8 +161,13 @@ def _build_leads_stmt(
     status: str | None,
     bad_only: bool,
     interest: str | None,
+    tag: str | None = None,
 ):
     stmt = _lead_query_with_campaigns().order_by(Lead.id.desc())
+    if tag:
+        from sqlalchemy.dialects.postgresql import JSONB
+        from sqlalchemy import cast
+        stmt = stmt.where(cast(Lead.custom_data, JSONB)["tags"].contains([tag]))
     if bad_only:
         bounced_enrollment = exists(
             select(1).select_from(CampaignLead).where(
@@ -518,6 +523,7 @@ async def _finalize_lead_recovery(
 
 @router.get("", response_model=list[LeadResponse])
 async def list_leads(
+    tag: str | None = Query(None, max_length=80),
     status: str | None = Query(None),
     bad_only: bool = Query(
         False,
@@ -531,7 +537,7 @@ async def list_leads(
     db: AsyncSession = Depends(get_db),
 ):
     intr = _optional_interest_for_stmt(interest)
-    stmt = _build_leads_stmt(q=q, status=status, bad_only=bad_only, interest=intr)
+    stmt = _build_leads_stmt(q=q, status=status, bad_only=bad_only, interest=intr, tag=tag)
     result = await db.execute(stmt)
     leads = result.scalars().all()
     ids = [x.id for x in leads]
@@ -563,6 +569,7 @@ async def _resolve_lead_selection_ids(db: AsyncSession, body: LeadSelectionReque
         status=f.status,
         bad_only=f.bad_only,
         interest=intr,
+        tag=f.tag,
     )
     if body.excluded_ids:
         stmt = stmt.where(~Lead.id.in_(body.excluded_ids))
@@ -577,12 +584,13 @@ async def list_leads_page(
     bad_only: bool = Query(False),
     interest: str | None = Query(None),
     q: str | None = Query(None),
+    tag: str | None = Query(None, max_length=80),
     page: int = Query(1, ge=1),
     page_size: int = Query(100, ge=1, le=500),
     db: AsyncSession = Depends(get_db),
 ):
     intr = _optional_interest_for_stmt(interest)
-    base_stmt = _build_leads_stmt(q=q, status=status, bad_only=bad_only, interest=intr)
+    base_stmt = _build_leads_stmt(q=q, status=status, bad_only=bad_only, interest=intr, tag=tag)
 
     count_stmt = select(func.count()).select_from(
         base_stmt.order_by(None).subquery()
@@ -630,11 +638,12 @@ async def export_leads_csv(
         description="Same as GET /api/leads: per-enrollment interest filter; stacks with other query params.",
     ),
     q: str | None = Query(None),
+    tag: str | None = Query(None, max_length=80),
     db: AsyncSession = Depends(get_db),
 ):
     """CSV export aligned with the Leads UI: core columns plus all custom_data keys."""
     intr = _optional_interest_for_stmt(interest)
-    stmt = _build_leads_stmt(q=q, status=status, bad_only=bad_only, interest=intr)
+    stmt = _build_leads_stmt(q=q, status=status, bad_only=bad_only, interest=intr, tag=tag)
     result = await db.execute(stmt)
     leads = list(result.scalars().all())
     ids = [x.id for x in leads]

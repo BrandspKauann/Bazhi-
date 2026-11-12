@@ -266,9 +266,9 @@ export default function Notifications() {
   }, [items, searchQuery, filterCategory]);
 
   const filterCategories = [
-    { key: null, label: 'All' },
-    { key: 'email', label: 'Email' },
-    { key: 'lead', label: 'Leads' },
+    { key: null, label: 'Todos' },
+    { key: 'email', label: 'E-mail' },
+    { key: 'lead', label: 'Contatos' },
     { key: 'system', label: 'System' },
   ];
 
@@ -279,7 +279,7 @@ export default function Notifications() {
       <header className="shrink-0 px-6 lg:px-8 pt-6 lg:pt-8 pb-0 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-transparent">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold">Notifications</h1>
+            <h1 className="text-2xl font-bold">Notificações</h1>
             <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
               Stay updated on campaign activity, lead replies, and system events.
             </p>
@@ -287,7 +287,7 @@ export default function Notifications() {
           {unread > 0 && (
             <Button size="sm" variant="outline" onClick={markAllRead}>
               <RiCheckDoubleLine className="mr-1" size={16} />
-              Mark all as read
+              Marcar todas como lidas
             </Button>
           )}
         </div>
@@ -360,7 +360,7 @@ export default function Notifications() {
               <div className="text-center py-20 text-gray-500 dark:text-gray-400">
                 <RiMailOpenLine size={48} className="mx-auto mb-4 opacity-50" />
                 <p className="text-lg font-medium">
-                  {isFiltered ? 'No matching notifications' : 'No notifications'}
+                  {isFiltered ? 'No matching notifications' : 'Nenhuma notificação'}
                 </p>
                 <p className="text-sm mt-1">
                   {isFiltered
@@ -482,7 +482,7 @@ export default function Notifications() {
 
             <div className="pt-2">
               <Button onClick={saveConfig} disabled={configSaving}>
-                {configSaving ? 'Saving...' : 'Save Preferences'}
+                {configSaving ? 'Salvando...' : 'Save Preferences'}
               </Button>
             </div>
           </div>

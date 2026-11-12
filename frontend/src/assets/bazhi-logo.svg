@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Bazhi">
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#182532"/><stop offset="1" stop-color="#05090D"/></linearGradient>
+    <linearGradient id="green" x1="0" y1="0" x2="0.8" y2="1"><stop stop-color="#00ED75"/><stop offset="0.5" stop-color="#00B36B"/><stop offset="1" stop-color="#005C35"/></linearGradient>
+    <linearGradient id="yellow" x2="1" y2="1"><stop stop-color="#FFE339"/><stop offset="1" stop-color="#FFB800"/></linearGradient>
+    <linearGradient id="red" x1="1" y1="0" x2="0" y2="1"><stop stop-color="#F92112"/><stop offset="1" stop-color="#C6000D"/></linearGradient>
+  </defs>
+  <rect x="2" y="2" width="252" height="252" rx="48" fill="url(#bg)" stroke="#344653" stroke-width="2"/>
+  <g transform="translate(28 27) scale(.8)">
+    <path d="M74 24H174C217 24 239 43 239 75C239 110 209 131 171 132L136 126C183 116 190 95 166 76C142 55 108 34 74 24Z" fill="url(#yellow)"/>
+    <path d="M74 24H153C177 24 193 29 199 40C187 57 177 77 165 100C127 61 71 85 44 146L16 231Z" fill="url(#green)"/>
+    <path d="M16 231H167C211 231 234 211 234 178C234 149 208 133 171 132L139 130C182 144 177 171 150 185C111 203 58 213 16 231Z" fill="url(#red)"/>
+    <path d="M16 231C42 183 93 158 150 185C107 181 56 207 16 231Z" fill="url(#yellow)"/>
+    <path d="M134 87C130 117 123 124 91 130C121 134 129 143 133 172C139 143 148 135 177 130C147 125 139 116 134 87Z" fill="#F5F7FA"/>
+  </g>
+</svg>

@@ -75,7 +75,7 @@ export default function Campaigns() {
   };
 
   const togglePause = async (id, paused, name) => {
-    const ok = await confirm(`${paused ? 'Resume' : 'Pause'} campaign "${name}"?`);
+    const ok = await confirm(`${paused ? 'Retomar' : 'Pausar'} campaign "${name}"?`);
     if (!ok) return;
     await api.patch(`/campaigns/${id}`, { paused: !paused });
     load();
@@ -112,16 +112,16 @@ export default function Campaigns() {
   return (
     <div className="min-h-0 flex-1 overflow-y-auto p-8 space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold mb-4">Campaigns</h1>
+        <h1 className="text-2xl font-semibold mb-4">Campanhas</h1>
         <Button as={Link} to="/analytics" variant="outline" size="sm">
-          Analytics
+          Relatórios
         </Button>
       </div>
 
       {banner}
 
       {campaigns.length === 0 && (
-        <Card>No campaigns yet. <Link className="text-teal-500" to="/campaigns/add">Create campaign</Link>.</Card>
+        <Card>Nenhuma campanha criada ainda. <Link className="text-teal-500" to="/campaigns/add">Criar campanha</Link>.</Card>
       )}
 
       {campaigns.length > 0 && (
@@ -131,10 +131,10 @@ export default function Campaigns() {
             <thead>
               <tr>
                 {isPriority && <><th className="w-8"></th><th className="w-10 text-gray-500 text-xs">#</th></>}
-                <th>Name</th>
-                <th>Status</th>
+                <th>Nome</th>
+                <th>Situação</th>
                 <th className="text-center">Progress</th>
-                <th className="text-center">Replies</th>
+                <th className="text-center">Respostas</th>
                 <th></th>
               </tr>
             </thead>
@@ -181,19 +181,19 @@ export default function Campaigns() {
                 // Status display
                 let statusLabel, statusClass;
                 if (isPaused) {
-                  statusLabel = 'Paused';
+                  statusLabel = 'Pausado';
                   statusClass = 'text-amber-600 font-bold';
                 } else if (isCompleted) {
-                  statusLabel = 'Completed';
+                  statusLabel = 'Concluído';
                   statusClass = 'text-blue-600 font-bold';
                 } else if (needsCustom > 0 && totalLeads === needsCustom) {
                   statusLabel = 'Needs Writing';
                   statusClass = 'text-purple-600 font-bold';
                 } else if (totalLeads === 0) {
-                  statusLabel = 'Draft';
+                  statusLabel = 'Rascunho';
                   statusClass = 'text-gray-400 font-bold';
                 } else {
-                  statusLabel = 'Active';
+                  statusLabel = 'Ativo';
                   statusClass = 'text-green-600 font-bold';
                 }
 
@@ -265,10 +265,10 @@ export default function Campaigns() {
                       <div className="flex flex-wrap gap-2">
                         <Button as={Link} to={`/campaigns/${c.id}`} variant="outline" size="sm">View</Button>
                         <Button variant="outline" size="sm" onClick={() => togglePause(c.id, c.paused, c.name)}>
-                          {c.paused ? 'Resume' : 'Pause'}
+                          {c.paused ? 'Retomar' : 'Pausar'}
                         </Button>
-                        <Button variant="outline" size="sm" onClick={() => duplicateCampaign(c.id, c.name)}>Duplicate</Button>
-                        <Button variant="danger" size="sm" onClick={() => deleteCampaign(c.id, c.name)}>Delete</Button>
+                        <Button variant="outline" size="sm" onClick={() => duplicateCampaign(c.id, c.name)}>Duplicar</Button>
+                        <Button variant="danger" size="sm" onClick={() => deleteCampaign(c.id, c.name)}>Excluir</Button>
                       </div>
                     </td>
                   </tr>
@@ -294,7 +294,7 @@ export default function Campaigns() {
       )}
 
       <div className="mt-4">
-        <Button as={Link} to="/campaigns/add" variant="default" className="no-underline hover:no-underline">Create campaign</Button>
+        <Button as={Link} to="/campaigns/add" variant="default" className="no-underline hover:no-underline">Criar campanha</Button>
       </div>
     </div>
   );

@@ -148,9 +148,9 @@ export default function Unibox() {
 
   const LEAD_STATUSES = [
     { value: '', label: 'All statuses' },
-    { value: 'active', label: 'Active' },
+    { value: 'active', label: 'Ativo' },
     { value: 'contacted', label: 'Contacted' },
-    { value: 'completed', label: 'Completed' },
+    { value: 'completed', label: 'Concluído' },
     { value: 'replied', label: 'Replied' },
     { value: 'unsubscribed', label: 'Unsubscribed' },
     { value: 'bounced', label: 'Bounced' },
@@ -503,7 +503,7 @@ export default function Unibox() {
     <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-hidden p-8">
       <div className="flex items-center justify-between shrink-0">
         <div className="flex items-center gap-3">
-          <h1 className="text-2xl font-semibold">Unibox</h1>
+          <h1 className="text-2xl font-semibold">Caixa de entrada</h1>
           {unreadCount > 0 && (
             <span className="inline-flex items-center justify-center h-6 min-w-6 px-1.5 rounded-full bg-red-500 text-white text-xs font-bold">
               {unreadCount > 99 ? '99+' : unreadCount}
@@ -530,7 +530,7 @@ export default function Unibox() {
                     : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-50'
                 }`}
               >
-                <span>{leadsOnly ? 'Leads' : 'All'}</span>
+                <span>{leadsOnly ? 'Contatos' : 'Todos'}</span>
               </button>
               {/* Lead status filter */}
               <select
@@ -642,7 +642,7 @@ export default function Unibox() {
                     >
                         <div className="flex flex-wrap items-center justify-between gap-2 mb-1">
                           <span className="text-xs uppercase tracking-wide font-semibold text-gray-600">
-                            {msg.direction === 'sent' ? 'Sent' : 'Received'}
+                            {msg.direction === 'sent' ? 'Enviados' : 'Received'}
                           </span>
                           <span className="text-xs text-gray-500">{formatDateTime(msg.timestamp)}</span>
                         </div>
@@ -664,7 +664,7 @@ export default function Unibox() {
                   {replyOpen && (
                     <form onSubmit={sendReply} className="rounded-2xl border border-gray-200 bg-gradient-to-b from-white to-gray-50 p-4 shadow-sm">
                       <div className="flex items-center justify-between mb-3 gap-2">
-                        <h3 className="font-semibold">Reply</h3>
+                        <h3 className="font-semibold">Responder</h3>
                         <span className="text-xs text-gray-500 truncate">To {compose.to_email || '(unknown recipient)'}</span>
                       </div>
                       <textarea
@@ -724,7 +724,7 @@ export default function Unibox() {
                           className="rounded-full px-3 py-1.5"
                           onClick={() => setReplyOpen(false)}
                         >
-                          Cancel
+                          Cancelar
                         </Button>
                         <Button type="submit" variant="default" size="sm" disabled={sending} className="rounded-full px-4 py-1.5">
                           {sending ? 'Sending...' : 'Send reply'}
@@ -746,7 +746,7 @@ export default function Unibox() {
                   className="rounded-full px-4 py-2 shadow-sm"
                   onClick={() => setReplyOpen((open) => !open)}
                 >
-                  {replyOpen ? 'Close reply' : 'Reply'}
+                  {replyOpen ? 'Close reply' : 'Responder'}
                 </Button>
               </div>
             </>

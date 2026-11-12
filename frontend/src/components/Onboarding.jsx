@@ -13,17 +13,17 @@ import {
   RiCloseLine,
   RiCheckLine,
 } from 'react-icons/ri';
-import logo from '../assets/quickly_logo.svg';
+import logo from '../assets/bazhi-logo.svg';
 
 /* ── step definitions ─────────────────────────────────────────────────────── */
 const steps = [
   {
     id: 'welcome',
     icon: <RiRocketLine size={40} />,
-    title: 'Welcome to Quickly',
+    title: 'Bem-vindo ao Bazhi',
     subtitle: 'Your email outreach platform',
     description:
-      'Quickly helps you send personalized cold email campaigns at scale using your Gmail accounts. ' +
+      'Bazhi helps you send personalized cold email campaigns at scale using your Gmail accounts. ' +
       'This quick tour will walk you through the key features so you can hit the ground running.',
     highlights: [
       'Send multi-step email sequences automatically',
@@ -36,7 +36,7 @@ const steps = [
   {
     id: 'inboxes',
     icon: <RiMailLine size={40} />,
-    title: 'Connect Your Inboxes',
+    title: 'Conecte suas contas de e-mail',
     subtitle: 'Gmail account management',
     description:
       'Start by connecting one or more Gmail accounts. Each inbox has its own daily sending limit ' +
@@ -54,10 +54,10 @@ const steps = [
   {
     id: 'campaigns',
     icon: <RiSendPlaneLine size={40} />,
-    title: 'Create Campaigns',
+    title: 'Crie campanhas',
     subtitle: 'Multi-step email sequences',
     description:
-      'Campaigns are the core of Quickly. Each campaign contains a sequence of emails that are ' +
+      'Campaigns are the core of Bazhi. Each campaign contains a sequence of emails that are ' +
       'sent automatically at intervals you define.',
     highlights: [
       'Build multi-step sequences (initial email + follow-ups)',
@@ -73,7 +73,7 @@ const steps = [
   {
     id: 'leads',
     icon: <RiUserLine size={40} />,
-    title: 'Add Your Leads',
+    title: 'Adicione seus contatos',
     subtitle: 'Lead management & enrollment',
     description:
       'Add leads to your campaigns individually or in bulk. Each lead can carry custom data ' +
@@ -91,10 +91,10 @@ const steps = [
   {
     id: 'scheduling',
     icon: <RiCalendarScheduleLine size={40} />,
-    title: 'Smart Scheduling',
+    title: 'Agendamento inteligente',
     subtitle: 'Queue engine & strategies',
     description:
-      'Quickly\'s scheduling engine automatically queues emails based on your inbox limits, ' +
+      'Bazhi\'s scheduling engine automatically queues emails based on your inbox limits, ' +
       'campaign settings, and sending windows. No manual scheduling needed.',
     highlights: [
       'Priority mode — drag campaigns to set send order',
@@ -109,7 +109,7 @@ const steps = [
   {
     id: 'tracking',
     icon: <RiShieldCheckLine size={40} />,
-    title: 'Tracking & Deliverability',
+    title: 'Rastreamento e entrega',
     subtitle: 'Monitor engagement safely',
     description:
       'Track how recipients engage with your emails. Open and click tracking can be toggled ' +
@@ -127,7 +127,7 @@ const steps = [
   {
     id: 'analytics',
     icon: <RiBarChartLine size={40} />,
-    title: 'Analytics, Unibox & More',
+    title: 'Relatórios, caixa de entrada e mais',
     subtitle: 'Monitor, reply, and configure',
     description:
       'Track campaign performance in Analytics, manage replies in the Unified Inbox, ' +
@@ -268,7 +268,7 @@ export default function Onboarding() {
         <button
           onClick={completeOnboarding}
           className="absolute top-4 right-4 z-10 text-gray-400 hover:text-gray-600 transition-colors rounded-full p-1 hover:bg-gray-100"
-          aria-label="Skip onboarding"
+          aria-label="Pular apresentação"
         >
           <RiCloseLine size={20} />
         </button>
@@ -278,7 +278,7 @@ export default function Onboarding() {
           {/* logo watermark for welcome step */}
           {current === 0 && (
             <div className="flex justify-center mb-4">
-              <img src={logo} alt="Quickly" className="h-12 w-12 opacity-80" />
+              <img src={logo} alt="Bazhi" className="h-12 w-12 opacity-80" />
             </div>
           )}
 
@@ -306,7 +306,7 @@ export default function Onboarding() {
                 className="flex items-center gap-1 px-3 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-200 rounded-lg transition-colors"
               >
                 <RiArrowLeftLine size={16} />
-                Back
+                Voltar
               </button>
             )}
             {isFirst && (
@@ -314,7 +314,7 @@ export default function Onboarding() {
                 onClick={completeOnboarding}
                 className="px-3 py-2 text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-lg transition-colors"
               >
-                Skip tour
+                Pular apresentação
               </button>
             )}
             <button
@@ -328,7 +328,7 @@ export default function Onboarding() {
                 </>
               ) : (
                 <>
-                  Next
+                  Próximo
                   <RiArrowRightLine size={16} />
                 </>
               )}

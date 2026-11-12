@@ -15,7 +15,7 @@ import {
   normalizeTimeZone,
 } from '../utils/datetime';
 
-const DAY_NAMES = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const DAY_NAMES = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
 const SCHEDULE_DAYS_BACK = 7;
 const SCHEDULE_DAYS_AHEAD = 3;
 const SCHEDULE_LIMIT = 5000;
@@ -85,7 +85,7 @@ function ScheduleEmailPreviewModal({ item, onClose }) {
         <div className="flex-1 overflow-y-auto px-6 py-5 space-y-4">
           {/* Subject */}
           <div className="bg-gray-50 rounded-lg px-4 py-3">
-            <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide block mb-1">Subject</span>
+            <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide block mb-1">Assunto</span>
             <p className="font-medium text-gray-800">
               {!item.subject || item.subject === '(reply in thread)'
                 ? <em className="text-gray-400 font-normal">Reply in thread</em>
@@ -94,7 +94,7 @@ function ScheduleEmailPreviewModal({ item, onClose }) {
           </div>
           {/* Body */}
           <div>
-            <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide block mb-2">Body</span>
+            <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide block mb-2">Mensagem</span>
             {body ? (
               isHtml ? (
                 <div className="border rounded-lg p-5 bg-white">
@@ -112,7 +112,7 @@ function ScheduleEmailPreviewModal({ item, onClose }) {
         </div>
 
         <div className="px-6 py-3 border-t flex justify-end">
-          <Button variant="outline" size="sm" onClick={onClose}>Close</Button>
+          <Button variant="outline" size="sm" onClick={onClose}>Fechar</Button>
         </div>
       </div>
     </div>
@@ -398,7 +398,7 @@ export default function Schedule() {
     const tz = normalizeTimeZone(item.campaign_timezone);
     const time = isSent ? fmtTime(item.sent_at, tz) : fmtTime(item.scheduled_at, tz);
     const statusCls = isSent ? 'sent' : 'scheduled';
-    const statusLabel = isSent ? 'Sent' : 'Scheduled';
+    const statusLabel = isSent ? 'Enviados' : 'Scheduled';
     const subject = item.subject || '(no subject)';
     const inboxLabel = item.inbox_email || '—';
     const isExpanded = expandedId === uid;
@@ -427,7 +427,7 @@ export default function Schedule() {
         {isExpanded && (
           <div className="detail-panel open">
             <div className="dp-grid">
-              <div><span className="dp-label">Status</span><br/><span className={`badge-status ${statusCls}`} style={{fontSize:'0.8rem'}}>{statusLabel}</span></div>
+              <div><span className="dp-label">Situação</span><br/><span className={`badge-status ${statusCls}`} style={{fontSize:'0.8rem'}}>{statusLabel}</span></div>
               {isSent ? (
                 <div><span className="dp-label">Sent at</span><br/><span className="dp-val">{fmtDateTime(item.sent_at, tz)}</span></div>
               ) : (
@@ -437,10 +437,10 @@ export default function Schedule() {
               <div><span className="dp-label">Campaign</span><br/><span className="dp-val"><a href={`/campaigns/${item.campaign_id}`}>{item.campaign_name}</a></span></div>
               <div><span className="dp-label">Sequence step</span><br/><span className="dp-val">{item.sequence_index+1}</span></div>
               <div><span className="dp-label">Wait after previous</span><br/><span className="dp-val">{item.sequence_wait_days??0} day(s)</span></div>
-              <div className="dp-full"><span className="dp-label">Subject</span><br/><span className="dp-val">{subject}</span></div>
+              <div className="dp-full"><span className="dp-label">Assunto</span><br/><span className="dp-val">{subject}</span></div>
               {!isSent && (
                 <>
-                  <div><span className="dp-label">Inbox</span><br/><span className="dp-val mono">{inboxLabel}</span>{item.inbox_display_name ? ` (${item.inbox_display_name})` : ''}</div>
+                  <div><span className="dp-label">Caixa de entrada</span><br/><span className="dp-val mono">{inboxLabel}</span>{item.inbox_display_name ? ` (${item.inbox_display_name})` : ''}</div>
                   <div><span className="dp-label">Send method</span><br/><span className="dp-val">{(item.inbox_provider||'').toUpperCase()}</span></div>
                   <div><span className="dp-label">Inbox max/day</span><br/><span className="dp-val">{item.inbox_max_per_day??'—'}</span></div>
                   <div><span className="dp-label">Position in day</span><br/><span className="dp-val">#{item.position_in_day??'—'}</span></div>
@@ -453,7 +453,7 @@ export default function Schedule() {
                 <div className="dp-full"><span className="dp-label">Message ID</span><br/><span className="dp-val mono" style={{fontSize:'0.78rem'}}>{item.message_id}</span></div>
               )}
               <div><span className="dp-label">Sending window</span><br/><span className="dp-val">{item.campaign_hours_start} – {item.campaign_hours_end}</span></div>
-              <div><span className="dp-label">Sending days</span><br/><span className="dp-val">{(item.campaign_sending_days||[]).map(d=>DAY_NAMES[d]).join(', ')}</span></div>
+              <div><span className="dp-label">Dias de envio</span><br/><span className="dp-val">{(item.campaign_sending_days||[]).map(d=>DAY_NAMES[d]).join(', ')}</span></div>
               <div><span className="dp-label">Stop on reply</span><br/><span className="dp-val">{item.campaign_stop_on_reply?'Yes':'No'}</span></div>
               {item.sequence_body && (
                 <div className="dp-full"><span className="dp-label">Email body</span>
@@ -488,12 +488,12 @@ export default function Schedule() {
     // add header row before items
     const header = (
       <div className="email-row header" key="header">
-        <div className="time-col">Time</div>
-        <div className="status-col">Status</div>
+        <div className="time-col">Horário</div>
+        <div className="status-col">Situação</div>
         <div className="lead-col">Lead</div>
-        <div className="subj-col">Subject</div>
+        <div className="subj-col">Assunto</div>
         <div className="camp-col">Campaign</div>
-        <div className="inbox-col">Inbox</div>
+        <div className="inbox-col">Caixa de entrada</div>
       </div>
     );
     const todayByTz = new Map();
@@ -565,7 +565,7 @@ export default function Schedule() {
   return (
     <div className="min-h-0 flex-1 overflow-y-auto p-8">
       <div className="flex items-center gap-3">
-        <h1 className="text-2xl font-bold">Schedule</h1>
+        <h1 className="text-2xl font-bold">Agendamento</h1>
         <span className="text-xs text-gray-400 bg-gray-100 rounded px-2 py-0.5" title="Times are stored in UTC and displayed in each campaign's timezone below">
           🕐 Times in campaign timezone
         </span>
@@ -617,7 +617,7 @@ export default function Schedule() {
       <div className="stats-row mb-4">
         <div className="stat-card"><div className="num" id="stat-sent">{stats.total_sent||0}</div><div className="lbl">Total sent</div></div>
         <div className="stat-card"><div className="num" id="stat-sched">{stats.total_scheduled||0}</div><div className="lbl">Scheduled</div></div>
-        <div className="stat-card"><div className="num" id="stat-camps">{stats.total_campaigns||0}</div><div className="lbl">Campaigns</div></div>
+        <div className="stat-card"><div className="num" id="stat-camps">{stats.total_campaigns||0}</div><div className="lbl">Campanhas</div></div>
       </div>
       <div className="cal-toolbar mb-4 flex flex-wrap gap-2 items-center">
         <select value={campaignFilter} onChange={e=>setCampaignFilter(e.target.value)} className="border rounded p-1 text-sm">
@@ -626,7 +626,7 @@ export default function Schedule() {
         </select>
         <select value={statusFilter} onChange={e=>setStatusFilter(e.target.value)} className="border rounded p-1 text-sm">
           <option value="">All statuses</option>
-          <option value="sent">Sent</option>
+          <option value="sent">Enviados</option>
           <option value="scheduled">Scheduled</option>
         </select>
         <input type="text" value={searchFilter} onChange={e=>setSearchFilter(e.target.value)} placeholder="Search lead, subject…" className="border rounded p-1 text-sm" style={{maxWidth:'240px'}} />

@@ -74,6 +74,7 @@ class LeadResponse(BaseModel):
 
 
 class LeadSelectionFilters(BaseModel):
+    tag: str | None = Field(None, max_length=80)
     q: Optional[str] = None
     status: Optional[str] = None
     bad_only: bool = False

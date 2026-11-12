@@ -32,11 +32,11 @@ import {
 // ─── tabs ─────────────────────────────────────────────────────────────────────
 const TABS = ['analytics', 'sequences', 'leads', 'queue', 'settings'];
 const TAB_LABELS = {
-  sequences: 'Sequences',
-  leads: 'Leads',
-  analytics: 'Analytics',
+  sequences: 'Sequências',
+  leads: 'Contatos',
+  analytics: 'Relatórios',
   queue: 'Queue',
-  settings: 'Settings',
+  settings: 'Configurações',
 };
 
 // ─── Main page ────────────────────────────────────────────────────────────────
@@ -210,7 +210,7 @@ export default function CampaignDetail() {
               <table className="w-full text-sm border-collapse mb-3">
                 <thead>
                   <tr className="bg-gray-50">
-                    {['Date','Time','From','Lead','Sequence','Subject'].map(h => (
+                    {['Data','Horário','De','Lead','Sequência','Assunto'].map(h => (
                       <th key={h} className="px-3 py-2 text-left font-semibold text-gray-600">{h}</th>
                     ))}
                   </tr>
@@ -239,7 +239,7 @@ export default function CampaignDetail() {
             <table className="w-full text-sm border-collapse">
               <thead>
                 <tr className="bg-gray-50">
-                  {['Date','Est. time','#','From','Lead','Sequence'].map(h=>(
+                  {['Data','Est. time','#','De','Lead','Sequência'].map(h=>(
                     <th key={h} className="px-3 py-2 text-left font-semibold text-gray-600">{h}</th>
                   ))}
                 </tr>
@@ -304,7 +304,7 @@ export default function CampaignDetail() {
   }
 
   if (error)            return <div className="min-h-0 flex-1 overflow-y-auto p-8 text-red-600">{error}</div>;
-  if (loading||!campaign) return <div className="min-h-0 flex-1 overflow-y-auto p-8 text-gray-400">Loading…</div>;
+  if (loading||!campaign) return <div className="min-h-0 flex-1 overflow-y-auto p-8 text-gray-400">Carregando…</div>;
 
   return (
     <div className="max-w-full min-h-0 min-w-0 flex-1 overflow-y-auto p-6">
@@ -312,7 +312,7 @@ export default function CampaignDetail() {
       <div className="flex items-center gap-3 mb-6">
         <h1 className="text-2xl font-bold flex-1 truncate">{campaign.name}</h1>
         {campaign.paused && (
-          <span className="px-2 py-0.5 bg-yellow-100 text-yellow-700 rounded-full text-xs font-semibold">Paused</span>
+          <span className="px-2 py-0.5 bg-yellow-100 text-yellow-700 rounded-full text-xs font-semibold">Pausado</span>
         )}
       </div>
 
@@ -532,7 +532,7 @@ function LeadsTab({ leads, leadsPage = 1, leadsTotal = 0, leadsHasMore = false, 
           all_selected: allSelected,
           lead_ids: [...selectedIds],
           excluded_ids: [...excludedIds],
-          // "Select all" is only offered while no filter-bar filter is active
+          // "Selecionar todos" is only offered while no filter-bar filter is active
           // (see the selection banner), so the search box is the only narrowing
           // the server has to reproduce here.
           filters: { q: leadsSearch.trim() },
@@ -917,7 +917,7 @@ function LeadsTab({ leads, leadsPage = 1, leadsTotal = 0, leadsHasMore = false, 
           <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M16 8l-4-4m0 0L8 8m4-4v12" />
           </svg>
-          {importing ? 'Importing…' : 'Import CSV'}
+          {importing ? 'Importing…' : 'Importar CSV'}
         </FileUploadArea>
         {emailVerifEnabled && (
           <Button size="sm" variant="outline" onClick={verifyAllLeads} disabled={verifying}>
@@ -940,7 +940,7 @@ function LeadsTab({ leads, leadsPage = 1, leadsTotal = 0, leadsHasMore = false, 
                 verification: 'all',
               })
             }
-          >Clear filters</button>
+          >Limpar filtros</button>
         )}
       </div>
 
@@ -1022,7 +1022,7 @@ function LeadsTab({ leads, leadsPage = 1, leadsTotal = 0, leadsHasMore = false, 
                 />
               </div>
               <div>
-                <label className="block text-sm text-gray-600 mb-1">Name</label>
+                <label className="block text-sm text-gray-600 mb-1">Nome</label>
                 <input
                   className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300"
                   value={single.name}
@@ -1096,7 +1096,7 @@ function LeadsTab({ leads, leadsPage = 1, leadsTotal = 0, leadsHasMore = false, 
         {/* Status */}
         <div className="flex items-center gap-1.5">
           <span className="font-medium text-gray-500 whitespace-nowrap">Status:</span>
-          {[{v:'all',l:'All'},{v:'active',l:'Active'},{v:'contacted',l:'Contacted'},{v:'completed',l:'Completed'},{v:'bounced',l:'Bounced'},{v:'unsubscribed',l:'Unsub'},{v:'wrong_person',l:'Wrong person'},{v:'needs_custom_email',l:'Needs custom'}].map(o => (
+          {[{v:'all',l:'Todos'},{v:'active',l:'Ativo'},{v:'contacted',l:'Contacted'},{v:'completed',l:'Concluído'},{v:'bounced',l:'Bounced'},{v:'unsubscribed',l:'Unsub'},{v:'wrong_person',l:'Wrong person'},{v:'needs_custom_email',l:'Needs custom'}].map(o => (
             <button key={o.v} onClick={() => setFilter('status', o.v)}
               className={`px-2 py-0.5 rounded-full font-medium transition-colors ${
                 filters.status === o.v ? 'bg-teal-500 text-white' : 'bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600 hover:border-teal-300'
@@ -1107,8 +1107,8 @@ function LeadsTab({ leads, leadsPage = 1, leadsTotal = 0, leadsHasMore = false, 
         <div className="flex items-center gap-1.5 flex-wrap">
           <span className="font-medium text-gray-500 whitespace-nowrap">Interest:</span>
           {[
-            { v: 'all', l: 'All' },
-            { v: 'unset', l: 'None' },
+            { v: 'all', l: 'Todos' },
+            { v: 'unset', l: 'Nenhum' },
             { v: 'interested', l: 'Interested' },
             { v: 'not_interested', l: 'Not interested' },
             { v: 'out_of_office', l: 'OOO' },
@@ -1131,7 +1131,7 @@ function LeadsTab({ leads, leadsPage = 1, leadsTotal = 0, leadsHasMore = false, 
         {/* Opened */}
         <div className="flex items-center gap-1.5">
           <span className="font-medium text-gray-500 whitespace-nowrap">Opened:</span>
-          {[{v:'all',l:'All'},{v:'yes',l:'Yes'},{v:'no',l:'No'}].map(o => (
+          {[{v:'all',l:'Todos'},{v:'yes',l:'Yes'},{v:'no',l:'No'}].map(o => (
             <button key={o.v} onClick={() => setFilter('opened', o.v)}
               className={`px-2 py-0.5 rounded-full font-medium transition-colors ${
                 filters.opened === o.v ? 'bg-amber-500 text-white' : 'bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600 hover:border-amber-300'
@@ -1141,7 +1141,7 @@ function LeadsTab({ leads, leadsPage = 1, leadsTotal = 0, leadsHasMore = false, 
         {/* Replied */}
         <div className="flex items-center gap-1.5">
           <span className="font-medium text-gray-500 whitespace-nowrap">Replied:</span>
-          {[{v:'all',l:'All'},{v:'yes',l:'Yes'},{v:'no',l:'No'}].map(o => (
+          {[{v:'all',l:'Todos'},{v:'yes',l:'Yes'},{v:'no',l:'No'}].map(o => (
             <button key={o.v} onClick={() => setFilter('replied', o.v)}
               className={`px-2 py-0.5 rounded-full font-medium transition-colors ${
                 filters.replied === o.v ? 'bg-violet-500 text-white' : 'bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600 hover:border-violet-300'
@@ -1151,7 +1151,7 @@ function LeadsTab({ leads, leadsPage = 1, leadsTotal = 0, leadsHasMore = false, 
         {/* Clicked */}
         <div className="flex items-center gap-1.5">
           <span className="font-medium text-gray-500 whitespace-nowrap">Clicked:</span>
-          {[{v:'all',l:'All'},{v:'yes',l:'Yes'},{v:'no',l:'No'}].map(o => (
+          {[{v:'all',l:'Todos'},{v:'yes',l:'Yes'},{v:'no',l:'No'}].map(o => (
             <button key={o.v} onClick={() => setFilter('clicked', o.v)}
               className={`px-2 py-0.5 rounded-full font-medium transition-colors ${
                 filters.clicked === o.v ? 'bg-orange-500 text-white' : 'bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600 hover:border-orange-300'
@@ -1163,7 +1163,7 @@ function LeadsTab({ leads, leadsPage = 1, leadsTotal = 0, leadsHasMore = false, 
           <div className="flex items-center gap-1.5 flex-wrap">
             <span className="font-medium text-gray-500 whitespace-nowrap">Verified:</span>
             {[
-              { v: 'all', l: 'All' },
+              { v: 'all', l: 'Todos' },
               { v: 'valid', l: 'Valid' },
               { v: 'invalid', l: 'Invalid' },
               { v: 'risky', l: 'Risky' },
@@ -1242,11 +1242,11 @@ function LeadsTab({ leads, leadsPage = 1, leadsTotal = 0, leadsHasMore = false, 
             <thead>
               <tr className="bg-gray-50 border-b border-gray-200">
                 <th className="px-4 py-3"><input type="checkbox" checked={pageFullySelected} onChange={(e) => togglePageSelection(e.target.checked)} /></th>
-                <th className="px-4 py-3 text-left font-semibold text-gray-600 whitespace-nowrap">Email</th>
-                <th className="px-4 py-3 text-left font-semibold text-gray-600">Name</th>
-                <th className="px-4 py-3 text-left font-semibold text-gray-600">Status</th>
+                <th className="px-4 py-3 text-left font-semibold text-gray-600 whitespace-nowrap">E-mail</th>
+                <th className="px-4 py-3 text-left font-semibold text-gray-600">Nome</th>
+                <th className="px-4 py-3 text-left font-semibold text-gray-600">Situação</th>
                 <th className="px-4 py-3 text-left font-semibold text-gray-600">Stage</th>
-                <th className="px-4 py-3 text-left font-semibold text-gray-600 whitespace-nowrap">Inbox</th>
+                <th className="px-4 py-3 text-left font-semibold text-gray-600 whitespace-nowrap">Caixa de entrada</th>
                 <th className="px-4 py-3 text-left font-semibold text-gray-600 whitespace-nowrap">Provider</th>
                 <th className="px-4 py-3 text-left font-semibold text-gray-600 whitespace-nowrap">Enrolled</th>
                 <th className="px-4 py-3 text-left font-semibold text-gray-600 whitespace-nowrap">Sending</th>
@@ -1325,7 +1325,7 @@ function LeadsTab({ leads, leadsPage = 1, leadsTotal = 0, leadsHasMore = false, 
                         }}
                         title={l.sending_paused ? 'Click to resume sending' : 'Click to pause sending'}
                       >
-                        {l.sending_paused ? 'Paused' : 'Active'}
+                        {l.sending_paused ? 'Pausado' : 'Ativo'}
                       </button>
                       <select
                         className={`text-[10px] font-medium rounded px-1.5 py-0.5 border cursor-pointer focus:outline-none focus:ring-1 focus:ring-teal-300 ${BADGE_STYLES[l.interest || l.interest_status] || 'bg-gray-50 text-gray-500 border-gray-200'}`}
@@ -1389,7 +1389,7 @@ function LeadsTab({ leads, leadsPage = 1, leadsTotal = 0, leadsHasMore = false, 
                       className="text-red-400 hover:text-red-600 text-xs font-medium transition-colors"
                       onClick={() => removeLead(l.lead_id, l.email)}
                     >
-                      Remove
+                      Remover
                     </button>
                   </td>
                 </tr>
@@ -1401,9 +1401,9 @@ function LeadsTab({ leads, leadsPage = 1, leadsTotal = 0, leadsHasMore = false, 
 
       {leadsTotal > 0 && (
         <div className="flex items-center justify-center gap-3 py-4">
-          <Button size="sm" variant="outline" disabled={leadsPage <= 1} onClick={() => onLeadsPageChange?.(leadsPage - 1)}>Previous</Button>
+          <Button size="sm" variant="outline" disabled={leadsPage <= 1} onClick={() => onLeadsPageChange?.(leadsPage - 1)}>Anterior</Button>
           <span className="text-xs text-gray-400">Page {leadsPage} / {Math.ceil(leadsTotal / 100)} · {leadsTotal} leads</span>
-          <Button size="sm" variant="outline" disabled={!leadsHasMore} onClick={() => onLeadsPageChange?.(leadsPage + 1)}>Next</Button>
+          <Button size="sm" variant="outline" disabled={!leadsHasMore} onClick={() => onLeadsPageChange?.(leadsPage + 1)}>Próximo</Button>
         </div>
       )}
       {/* Confirm leads modal */}
@@ -1459,7 +1459,7 @@ function LeadsTab({ leads, leadsPage = 1, leadsTotal = 0, leadsHasMore = false, 
             )}
 
             <div className="flex justify-end gap-2 mt-6 pt-3 border-t border-gray-100">
-              <Button variant="outline" size="sm" onClick={() => setShowLeadsConfirm(false)}>Cancel</Button>
+              <Button variant="outline" size="sm" onClick={() => setShowLeadsConfirm(false)}>Cancelar</Button>
               <Button variant="default" size="sm" onClick={handleConfirmAdd} disabled={confirmAddLoading}>
                 {confirmAddLoading ? 'Adding…' : `Confirm & Add ${confirmPreview.total_valid} lead${confirmPreview.total_valid !== 1 ? 's' : ''}`}
               </Button>
@@ -1474,12 +1474,12 @@ function LeadsTab({ leads, leadsPage = 1, leadsTotal = 0, leadsHasMore = false, 
 
 // ─── Analytics Tab ────────────────────────────────────────────────────────────
 const SERIES_LIST = [
-  { key: 'sent',         name: 'Sent',          stroke: 'rgba(59,130,246,0.8)',  fill: 'rgba(59,130,246,0.15)' },
-  { key: 'totalOpens',   name: 'Total Opens',   stroke: 'rgba(234,179,8,0.8)',   fill: 'rgba(234,179,8,0.15)' },
-  { key: 'uniqueOpens',  name: 'Unique Opens',  stroke: 'rgba(16,185,129,0.8)',  fill: 'rgba(16,185,129,0.15)' },
-  { key: 'totalReplies', name: 'Replies',        stroke: 'rgba(45,212,191,0.8)',  fill: 'rgba(45,212,191,0.15)' },
-  { key: 'totalClicks',  name: 'Total Clicks',  stroke: 'rgba(234,88,12,0.8)',   fill: 'rgba(234,88,12,0.15)' },
-  { key: 'uniqueClicks', name: 'Unique Clicks', stroke: 'rgba(236,72,153,0.8)',  fill: 'rgba(236,72,153,0.15)' },
+  { key: 'sent',         name: 'Enviados',          stroke: 'rgba(59,130,246,0.8)',  fill: 'rgba(59,130,246,0.15)' },
+  { key: 'totalOpens',   name: 'Total de aberturas',   stroke: 'rgba(234,179,8,0.8)',   fill: 'rgba(234,179,8,0.15)' },
+  { key: 'uniqueOpens',  name: 'Aberturas únicas',  stroke: 'rgba(16,185,129,0.8)',  fill: 'rgba(16,185,129,0.15)' },
+  { key: 'totalReplies', name: 'Respostas',        stroke: 'rgba(45,212,191,0.8)',  fill: 'rgba(45,212,191,0.15)' },
+  { key: 'totalClicks',  name: 'Total de cliques',  stroke: 'rgba(234,88,12,0.8)',   fill: 'rgba(234,88,12,0.15)' },
+  { key: 'uniqueClicks', name: 'Cliques únicos', stroke: 'rgba(236,72,153,0.8)',  fill: 'rgba(236,72,153,0.15)' },
 ];
 
 function CampaignAnalyticsTab({ campaignId, campaign, sentData = [], sequences = [], onRefresh }) {
@@ -1497,16 +1497,16 @@ function CampaignAnalyticsTab({ campaignId, campaign, sentData = [], sequences =
     const lastMonthStart = localIso(new Date(today.getFullYear(), today.getMonth() - 1, 1));
     const lastMonthEnd = localIso(new Date(today.getFullYear(), today.getMonth(), 0));
     return [
-      { label: 'Last 7 Days',  start: d(-6),          end: todayStr },
-      { label: 'Last Week',    start: lastWeekStart,  end: localIso(lastWeekEnd) },
-      { label: 'Last 30 Days', start: d(-29),         end: todayStr },
-      { label: 'Last Month',   start: lastMonthStart, end: lastMonthEnd },
-      { label: 'Last 90 Days', start: d(-89),         end: todayStr },
+      { label: 'Últimos 7 dias',  start: d(-6),          end: todayStr },
+      { label: 'Semana passada',    start: lastWeekStart,  end: localIso(lastWeekEnd) },
+      { label: 'Últimos 30 dias', start: d(-29),         end: todayStr },
+      { label: 'Mês passado',   start: lastMonthStart, end: lastMonthEnd },
+      { label: 'Últimos 90 dias', start: d(-89),         end: todayStr },
     ];
   }, [todayStr]);
 
-  const [activePreset, setActivePreset] = useState('Last 7 Days');
-  const defaultRange = presets.find(p => p.label === 'Last 7 Days') || presets[0];
+  const [activePreset, setActivePreset] = useState('Últimos 7 dias');
+  const defaultRange = presets.find(p => p.label === 'Últimos 7 dias') || presets[0];
   const [startDate, setStartDate] = useState(defaultRange.start);
   const [endDate,   setEndDate]   = useState(defaultRange.end);
   const [analyticsData, setAnalyticsData] = useState([]);
@@ -1663,12 +1663,12 @@ function CampaignAnalyticsTab({ campaignId, campaign, sentData = [], sequences =
       {/* Range KPIs */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
         {[
-          { label: 'Leads',      value: rangeLeads },
-          { label: 'Sent',       value: rangeSent },
-          { label: 'Replies',    value: rangeReplies },
+          { label: 'Contatos',      value: rangeLeads },
+          { label: 'Enviados',       value: rangeSent },
+          { label: 'Respostas',    value: rangeReplies },
           { label: 'Open Rate',  value: `${openRate}%` },
-          { label: 'Reply Rate', value: `${replyRate}%` },
-          { label: 'Click Rate', value: `${clickRate}%` },
+          { label: 'Taxa de resposta', value: `${replyRate}%` },
+          { label: 'Taxa de cliques', value: `${clickRate}%` },
         ].map(({ label, value }) => (
           <Card key={label} className="p-4">
             <div className="text-xs text-gray-500 mb-1">{label}</div>
@@ -1700,18 +1700,18 @@ function CampaignAnalyticsTab({ campaignId, campaign, sentData = [], sequences =
               : 'bg-white text-gray-600 border-gray-300 hover:border-teal-300 hover:bg-teal-50'
           }`}
         >
-          Custom
+          Personalizado
         </button>
       </div>
 
       {activePreset === 'custom' && (
         <div className="flex flex-wrap items-center gap-4">
           <label className="flex items-center gap-2 text-sm text-gray-600">
-            From
+            De
             <DatePicker value={startDate} onChange={v => { setStartDate(v); setActivePreset('custom'); }} />
           </label>
           <label className="flex items-center gap-2 text-sm text-gray-600">
-            To
+            Para
             <DatePicker value={endDate} onChange={v => { setEndDate(v); setActivePreset('custom'); }} />
           </label>
         </div>
@@ -1814,10 +1814,10 @@ function StepAnalyticsPanel({ stepStats, loading, campaignId, sequences, onToggl
           <tr className="border-b border-gray-200 bg-gray-50 text-gray-600 text-xs font-semibold uppercase tracking-wide">
             <th className="px-3 py-2 text-left w-8"></th>
             <th className="px-3 py-2 text-left">Step</th>
-            <th className="px-3 py-2 text-right">Sent</th>
+            <th className="px-3 py-2 text-right">Enviados</th>
             <th className="px-3 py-2 text-right">Opens</th>
             <th className="px-3 py-2 text-right">Clicks</th>
-            <th className="px-3 py-2 text-right">Replies</th>
+            <th className="px-3 py-2 text-right">Respostas</th>
             <th className="px-3 py-2 text-right">Opportunities</th>
           </tr>
         </thead>
@@ -1885,7 +1885,7 @@ function StepAnalyticsPanel({ stepStats, loading, campaignId, sequences, onToggl
                                 : 'bg-gray-200 text-gray-500 hover:bg-gray-300'
                             }`}
                           >
-                            {variant.enabled ? 'Enabled' : 'Disabled'}
+                            {variant.enabled ? 'Ativado' : 'Desativado'}
                           </button>
                         )}
                       </div>
@@ -1916,14 +1916,14 @@ function StepAnalyticsPanel({ stepStats, loading, campaignId, sequences, onToggl
 
 // ─── Sent Emails Panel ────────────────────────────────────────────────────────
 const SENT_FILTER_OPTIONS = [
-  { value: 'all',        label: 'All' },
+  { value: 'all',        label: 'Todos' },
   { value: 'opened',     label: 'Opened' },
   { value: 'clicked',    label: 'Clicked' },
   { value: 'replied',    label: 'Replied' },
   { value: 'interested', label: 'Interested' },
   { value: 'not_opened', label: 'Not Opened' },
   { value: 'bounced',    label: 'Bounced' },
-  { value: 'unsubscribed', label: 'Unsubscribed' },
+  { value: 'unsubscribed', label: 'Cancelamento de inscriçãod' },
 ];
 
 function SentEmailsPanel({ sentData = [], filter, onFilterChange }) {
@@ -1974,16 +1974,16 @@ function SentEmailsPanel({ sentData = [], filter, onFilterChange }) {
           <table className="w-full text-sm">
             <thead className="sticky top-0 bg-white z-10">
               <tr className="border-b border-gray-200 bg-gray-50 text-gray-600 text-xs font-semibold uppercase tracking-wide">
-                <th className="px-3 py-2.5 text-left">Sent</th>
-                <th className="px-3 py-2.5 text-left">From</th>
+                <th className="px-3 py-2.5 text-left">Enviados</th>
+                <th className="px-3 py-2.5 text-left">De</th>
                 <th className="px-3 py-2.5 text-left">Lead</th>
                 <th className="px-3 py-2.5 text-left">Step</th>
-                <th className="px-3 py-2.5 text-left">Subject</th>
+                <th className="px-3 py-2.5 text-left">Assunto</th>
                 <th className="px-3 py-2.5 text-center">Opened</th>
                 <th className="px-3 py-2.5 text-center">Clicked</th>
                 <th className="px-3 py-2.5 text-center">Replied</th>
                 <th className="px-3 py-2.5 text-left">Variant</th>
-                <th className="px-3 py-2.5 text-left">Status</th>
+                <th className="px-3 py-2.5 text-left">Situação</th>
               </tr>
             </thead>
             <tbody>
@@ -2122,13 +2122,13 @@ function SettingsTab({ campaign, inboxes, onSave, campaignId }) {
   const TOGGLE_OPTIONS = [
     { key: 'stop_on_reply',            label: 'Stop sequence on reply' },
     { key: 'paused',                   label: 'Pause this campaign' },
-    { key: 'track_opens',              label: 'Track email opens' },
-    { key: 'track_clicks',             label: 'Track link clicks' },
-    { key: 'add_unsubscribe_header',   label: 'Add List-Unsubscribe header (recommended)' },
-    { key: 'add_one_click_unsubscribe', label: 'Include one-click unsubscribe (List-Unsubscribe-Post)', disabled: !form.add_unsubscribe_header },
+    { key: 'track_opens',              label: 'Rastrear aberturas dos e-mails' },
+    { key: 'track_clicks',             label: 'Rastrear cliques nos links' },
+    { key: 'add_unsubscribe_header',   label: 'Adicionar cabeçalho de cancelamento de inscrição (List-Cancelamento de inscrição, recomendado)' },
+    { key: 'add_one_click_unsubscribe', label: 'Incluir cancelamento de inscrição com um clique (List-Cancelamento de inscrição-Post)', disabled: !form.add_unsubscribe_header },
     { key: 'send_first_as_text',       label: 'Send first email as plain text', disabled: form.send_all_as_text },
-    { key: 'send_all_as_text',         label: 'Send all emails as plain text' },
-    { key: 'match_lead_provider',      label: 'Match lead provider — send from Google inboxes to Google leads, Office 365 to Office 365 (falls back to any inbox if none match)' },
+    { key: 'send_all_as_text',         label: 'Enviar todos os e-mails como texto simples' },
+    { key: 'match_lead_provider',      label: 'Usar o mesmo provedor do contato — enviar de contas Google para contatos Google e de Office 365 para Office 365 (usar qualquer conta se não houver correspondência)' },
   ];
 
   return (
@@ -2187,7 +2187,7 @@ function SettingsTab({ campaign, inboxes, onSave, campaignId }) {
 
         {/* Inboxes */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Sending inboxes *</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Contas de envio *</label>
           <div className="border rounded-lg p-3 max-h-48 overflow-y-auto space-y-1.5">
             {inboxes.length === 0 && <p className="text-sm text-gray-400">No inboxes configured.</p>}
             {inboxes.map(i => (
@@ -2199,14 +2199,14 @@ function SettingsTab({ campaign, inboxes, onSave, campaignId }) {
           </div>
         </div>
 
-        {/* Sending days */}
+        {/* Dias de envio */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Sending days</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Dias de envio</label>
           <div className="flex flex-wrap gap-3">
             {[0,1,2,3,4,5,6].map(d => (
               <label key={d} className="flex items-center gap-1.5 cursor-pointer text-sm">
                 <input type="checkbox" checked={form.sending_days.includes(d)} onChange={()=>toggleDay(d)} />
-                {['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][d]}
+                {['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'][d]}
               </label>
             ))}
           </div>
@@ -2230,9 +2230,9 @@ function SettingsTab({ campaign, inboxes, onSave, campaignId }) {
           ))}
         </div>
 
-        {/* Timezone */}
+        {/* Fuso horário */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Timezone</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Fuso horário</label>
           <div className="relative">
             <input
               type="text"
@@ -2263,7 +2263,7 @@ function SettingsTab({ campaign, inboxes, onSave, campaignId }) {
             )}
           </div>
           <p className="text-xs text-gray-400 mt-1">
-            Sending window times are interpreted in this timezone. Emails are stored internally in UTC and sent at the correct local time.
+            Os horários de envio seguem este fuso horário. Os e-mails são armazenados internamente em UTC e enviados no horário local correto.
           </p>
         </div>
 
@@ -2304,7 +2304,7 @@ function SettingsTab({ campaign, inboxes, onSave, campaignId }) {
         )}
         {!(form.send_all_as_text||form.send_first_as_text) && (form.track_opens||form.track_clicks) && (
           <p className="text-xs text-blue-600 bg-blue-50 border border-blue-200 rounded-lg px-3 py-2">
-            ℹ Tracking is enabled — plain-text sequences will be automatically sent as HTML so tracking pixels and links can be injected.
+            ℹ Rastreamento is enabled — plain-text sequences will be automatically sent as HTML so tracking pixels and links can be injected.
           </p>
         )}
 
@@ -2390,14 +2390,14 @@ function SequenceBodyEditor({ value, onChange, isHtml, onIsHtmlChange, previewTe
   const forcePlainFirst = campaign?.send_first_as_text && isFirstSequence;
   const isOverridden    = forcePlainAll || forcePlainFirst;
   const trackingEnabled = campaign?.track_opens || campaign?.track_clicks;
-  // Tracking needs HTML: if sequence is plain text but tracking is on, it will be upgraded
+  // Rastreamento needs HTML: if sequence is plain text but tracking is on, it will be upgraded
   const trackingUpgrade = !isHtml && trackingEnabled && !isOverridden;
   const effectiveHtml   = (isHtml || trackingUpgrade) && !isOverridden;
 
   const overrideMsg = forcePlainAll
-    ? 'Campaign is set to send all emails as plain text — HTML will be ignored. Tracking will also be disabled for these emails.'
+    ? 'Campaign is set to send all emails as plain text — HTML will be ignored. Rastreamento will also be disabled for these emails.'
     : forcePlainFirst
-    ? 'Campaign sends the first email as plain text — HTML will be ignored for this sequence. Tracking will also be disabled.'
+    ? 'Campaign sends the first email as plain text — HTML will be ignored for this sequence. Rastreamento will also be disabled.'
     : trackingUpgrade
     ? 'Open/click tracking is enabled — this email will be sent as HTML so tracking pixels and links can be injected.'
     : null;
@@ -2574,14 +2574,14 @@ function PreviewModal({ sequence, campaignId, leads, onClose, variant = null, ed
             <div className="space-y-4">
               {/* Subject */}
               <div className="bg-gray-50 rounded-lg px-4 py-3">
-                <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide block mb-1">Subject</span>
+                <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide block mb-1">Assunto</span>
                 <p className="font-medium text-gray-800">
                   {preview.subject || <em className="text-gray-400 font-normal">Reply in thread</em>}
                 </p>
               </div>
               {/* Body */}
               <div>
-                <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide block mb-2">Body</span>
+                <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide block mb-2">Mensagem</span>
                 {preview.is_html ? (
                   <div className="border rounded-lg p-5 bg-white">
                     {/* Rendered in an isolated shadow root so app CSS (Tailwind
@@ -2627,7 +2627,7 @@ function PreviewModal({ sequence, campaignId, leads, onClose, variant = null, ed
             )}
           </div>
           <div className="flex justify-end">
-            <Button variant="outline" size="sm" onClick={onClose}>Close</Button>
+            <Button variant="outline" size="sm" onClick={onClose}>Fechar</Button>
           </div>
         </div>
       </div>
@@ -2762,7 +2762,7 @@ function PersonalizedSequenceSection({ sequence, sequences, personalizedSequence
   const FILTERS = [
     { key: 'needs_writing', label: 'Needs writing' },
     { key: 'written', label: 'Written' },
-    { key: 'all', label: 'All' },
+    { key: 'all', label: 'Todos' },
   ];
 
   const campaignMode = campaign?.custom_sequence_mode || 'wait_for_all';
@@ -2831,7 +2831,7 @@ function PersonalizedSequenceSection({ sequence, sequences, personalizedSequence
                   </div>
                 </th>
               )}
-              <th className="px-3 py-2 text-left">Status</th>
+              <th className="px-3 py-2 text-left">Situação</th>
               <th className="px-3 py-2 text-right">Action</th>
             </tr>
           </thead>
@@ -2877,13 +2877,13 @@ function PersonalizedSequenceSection({ sequence, sequences, personalizedSequence
                     </td>
                     <td className="px-3 py-2 text-right">
       {(alreadySent || isTerminal) ? (
-        <span className="text-xs text-gray-400 italic">{alreadySent ? 'Sent' : terminalLabel}</span>
+        <span className="text-xs text-gray-400 italic">{alreadySent ? 'Enviados' : terminalLabel}</span>
                       ) : (
                         <button
                           onClick={() => onWriteCustom(l, sequence)}
                           className="px-2.5 py-1 text-xs font-medium rounded-lg border border-gray-300 transition-colors hover:bg-purple-50 hover:border-purple-300"
                         >
-                          {isWritten ? 'Edit' : 'Write'}
+                          {isWritten ? 'Editar' : 'Write'}
                         </button>
                       )}
                     </td>
@@ -3002,7 +3002,7 @@ function CustomEmailEditorModal({ target, campaignId, onClose, onSaved }) {
           )}
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Assunto</label>
             <input
               className={`w-full border rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 ${subjectError ? 'border-red-400 focus:ring-red-300' : 'focus:ring-teal-300'}`}
               value={subject}
@@ -3047,9 +3047,9 @@ function CustomEmailEditorModal({ target, campaignId, onClose, onSaved }) {
         </div>
 
         <div className="px-6 py-3 border-t flex justify-end gap-2">
-          <Button size="sm" variant="outline" onClick={onClose}>Cancel</Button>
+          <Button size="sm" variant="outline" onClick={onClose}>Cancelar</Button>
           <Button size="sm" variant="default" onClick={save} disabled={saving}>
-            {saving ? 'Saving…' : 'Save'}
+            {saving ? 'Saving…' : 'Salvar'}
           </Button>
         </div>
       </div>
@@ -3290,9 +3290,9 @@ function SequencesTab({ sequences, campaignId, campaign, leads, refresh }) {
               </div>
               <div className="flex gap-2">
                 {(editing.sequence_type || 'standard') !== 'personalized' && (
-                  <Button size="sm" variant="outline" onClick={() => { setPreviewSeq(editing); setPreviewVariant(null); setPreviewOverride(editing); }}>Preview</Button>
+                  <Button size="sm" variant="outline" onClick={() => { setPreviewSeq(editing); setPreviewVariant(null); setPreviewOverride(editing); }}>Prévia</Button>
                 )}
-                <Button size="sm" variant="destructive" onClick={() => deleteSeq(editing)}>Delete</Button>
+                <Button size="sm" variant="destructive" onClick={() => deleteSeq(editing)}>Excluir</Button>
               </div>
             </div>
             <form onSubmit={saveEdit} className="flex-1 overflow-y-auto p-6 space-y-5">
@@ -3320,7 +3320,7 @@ function SequencesTab({ sequences, campaignId, campaign, leads, refresh }) {
               ) : (
                 <>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Assunto</label>
                     <input className="w-full border rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300" value={editing.subject || ''} onChange={e => updateEditing({ subject: e.target.value })} placeholder="Leave blank to reply in same thread" />
                   </div>
                   <div>
@@ -3372,8 +3372,8 @@ function SequencesTab({ sequences, campaignId, campaign, leads, refresh }) {
                 <input type="number" min={0} className="w-28 border rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300" value={editing.wait_days_after_previous} onChange={e => updateEditing({ wait_days_after_previous: +e.target.value })} />
               </div>
               <div className="flex gap-2 pt-2">
-                <Button size="sm" variant="default">Save Changes</Button>
-                <Button type="button" size="sm" variant="outline" onClick={tryCloseEdit}>Cancel</Button>
+                <Button size="sm" variant="default">Salvar alterações</Button>
+                <Button type="button" size="sm" variant="outline" onClick={tryCloseEdit}>Cancelar</Button>
               </div>
             </form>
           </div>
@@ -3391,21 +3391,21 @@ function SequencesTab({ sequences, campaignId, campaign, leads, refresh }) {
               </div>
               <div className="flex gap-2">
                 {(selectedSeq.sequence_type || 'standard') !== 'personalized' && (
-                  <Button size="sm" variant="outline" onClick={() => { setPreviewSeq(selectedSeq); setPreviewOverride(null); }}>Preview</Button>
+                  <Button size="sm" variant="outline" onClick={() => { setPreviewSeq(selectedSeq); setPreviewOverride(null); }}>Prévia</Button>
                 )}
-                <Button size="sm" variant="default" onClick={() => openEdit(selectedSeq)}>Edit</Button>
-                <Button size="sm" variant="destructive" onClick={() => deleteSeq(selectedSeq)}>Delete</Button>
+                <Button size="sm" variant="default" onClick={() => openEdit(selectedSeq)}>Editar</Button>
+                <Button size="sm" variant="destructive" onClick={() => deleteSeq(selectedSeq)}>Excluir</Button>
               </div>
             </div>
             <div className="flex-1 overflow-y-auto p-6">
               {(selectedSeq.sequence_type || 'standard') !== 'personalized' && (
                 <>
                   <div className="mb-5">
-                    <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide block mb-1">Subject</span>
+                    <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide block mb-1">Assunto</span>
                     <p className="text-gray-800 font-medium">{selectedSeq.subject || <em className="text-gray-400 font-normal">Reply in same thread</em>}</p>
                   </div>
                   <div>
-                    <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide block mb-2">Body</span>
+                    <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide block mb-2">Mensagem</span>
                     {selectedSeq.is_html ? (
                       <div className="border rounded-lg p-5 bg-white min-h-[200px]" dangerouslySetInnerHTML={{ __html: selectedSeq.body }} />
                     ) : (
@@ -3462,16 +3462,16 @@ function SequencesTab({ sequences, campaignId, campaign, leads, refresh }) {
                               onClick={() => toggleVariantEnabled(v)}
                               className={`text-[10px] px-2 py-0.5 rounded-full font-medium transition-colors ${v.enabled ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200' : 'bg-gray-200 text-gray-500 hover:bg-gray-300'}`}
                             >
-                              {v.enabled ? 'Enabled' : 'Disabled'}
+                              {v.enabled ? 'Ativado' : 'Desativado'}
                             </button>
                           </div>
                           {v.subject && <p className="text-xs text-gray-500 mt-0.5 truncate">Subject: {v.subject}</p>}
                           {v.body && <p className="text-xs text-gray-400 mt-0.5 truncate">{v.body.replace(/<[^>]+>/g, '').slice(0, 80)}…</p>}
                         </div>
                         <div className="flex gap-1.5 shrink-0">
-                          <button onClick={() => { setPreviewSeq(selectedSeq); setPreviewVariant(v); setPreviewOverride(null); }} className="px-2.5 py-1 text-xs bg-white border border-teal-200 rounded hover:bg-teal-50 text-teal-700 transition-colors">Preview</button>
-                          <button onClick={() => openEditVariant(v)} className="px-2.5 py-1 text-xs bg-white border border-gray-300 rounded hover:bg-gray-100 text-gray-600 transition-colors">Edit</button>
-                          <button onClick={() => deleteVariant(v)} className="px-2.5 py-1 text-xs bg-white border border-red-200 rounded hover:bg-red-50 text-red-600 transition-colors">Delete</button>
+                          <button onClick={() => { setPreviewSeq(selectedSeq); setPreviewVariant(v); setPreviewOverride(null); }} className="px-2.5 py-1 text-xs bg-white border border-teal-200 rounded hover:bg-teal-50 text-teal-700 transition-colors">Prévia</button>
+                          <button onClick={() => openEditVariant(v)} className="px-2.5 py-1 text-xs bg-white border border-gray-300 rounded hover:bg-gray-100 text-gray-600 transition-colors">Editar</button>
+                          <button onClick={() => deleteVariant(v)} className="px-2.5 py-1 text-xs bg-white border border-red-200 rounded hover:bg-red-50 text-red-600 transition-colors">Excluir</button>
                         </div>
                       </div>
                     ))}
@@ -3486,7 +3486,7 @@ function SequencesTab({ sequences, campaignId, campaign, leads, refresh }) {
                       <input className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-300" placeholder="Variant A" value={variantForm.label} onChange={e => setVariantForm(f => ({ ...f, label: e.target.value }))} />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-gray-600 mb-1">Subject <span className="text-gray-400">(blank = use step's subject)</span></label>
+                      <label className="block text-xs font-medium text-gray-600 mb-1">Assunto <span className="text-gray-400">(blank = use step's subject)</span></label>
                       <input className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-300" placeholder="Leave blank to use step subject" value={variantForm.subject} onChange={e => setVariantForm(f => ({ ...f, subject: e.target.value }))} />
                     </div>
                     <div>
@@ -3497,7 +3497,7 @@ function SequencesTab({ sequences, campaignId, campaign, leads, refresh }) {
                       <Button size="sm" variant="default" onClick={editingVariant ? saveVariant : createVariant} type="button">
                         {editingVariant ? 'Save Variant' : 'Create Variant'}
                       </Button>
-                      <Button size="sm" variant="outline" onClick={() => { setShowVariantForm(false); setEditingVariant(null); }} type="button">Cancel</Button>
+                      <Button size="sm" variant="outline" onClick={() => { setShowVariantForm(false); setEditingVariant(null); }} type="button">Cancelar</Button>
                     </div>
                   </div>
                 )}
@@ -3533,7 +3533,7 @@ function SequencesTab({ sequences, campaignId, campaign, leads, refresh }) {
               ) : (
                 <>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Assunto</label>
                     <input className="w-full border rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300" value={form.subject} onChange={e => setForm(f => ({ ...f, subject: e.target.value }))} placeholder="Leave blank to reply in same thread" />
                   </div>
                   <div>

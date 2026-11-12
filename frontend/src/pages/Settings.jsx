@@ -20,21 +20,21 @@ import { Card } from '../components/ui/Card';
 import EmailVerificationSettings from '../components/EmailVerificationSettings';
 
 const SETTINGS_TABS = [
-  { id: 'general', label: 'General' },
-  { id: 'setup', label: 'Setup' },
-  { id: 'features', label: 'Features' },
-  { id: 'integrating', label: 'Integrating' },
-  { id: 'dev', label: 'Dev' },
+  { id: 'general', label: 'Geral' },
+  { id: 'setup', label: 'Configuração inicial' },
+  { id: 'features', label: 'Recursos' },
+  { id: 'integrating', label: 'Integrações' },
+  { id: 'dev', label: 'Desenvolvimento' },
 ];
 
 /** In-tab section anchors (DOM id = `settings-${id}`). */
 const SECTIONS_BY_TAB = {
   general: [
-    { id: 'scheduling', label: 'Scheduling' },
-    { id: 'appearance', label: 'Appearance' },
-    { id: 'account', label: 'Account & Security' },
-    { id: 'known-ips', label: 'Known IPs' },
-    { id: 'about', label: 'About' },
+    { id: 'scheduling', label: 'Agendamento' },
+    { id: 'appearance', label: 'Aparência' },
+    { id: 'account', label: 'Conta e segurança' },
+    { id: 'known-ips', label: 'IPs conhecidos' },
+    { id: 'about', label: 'Sobre' },
   ],
   setup: [
     { id: 'gmail-sync', label: 'Gmail sync' },
@@ -60,14 +60,14 @@ const NOTICE_LEVEL_STYLE = {
     badge: 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300',
     border: 'border-red-300 dark:border-red-800',
     iconClass: 'text-red-600 dark:text-red-400',
-    label: 'Security',
+    label: 'Segurança',
     Icon: RiShieldLine,
   },
   warning: {
     badge: 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300',
     border: 'border-amber-300 dark:border-amber-800',
     iconClass: 'text-amber-500',
-    label: 'Warning',
+    label: 'Aviso',
     Icon: RiAlertLine,
   },
   info: {
@@ -824,7 +824,7 @@ export default function Settings() {
   return (
     <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden">
       <header className="shrink-0 px-6 lg:px-8 pt-6 lg:pt-8 pb-0 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-transparent">
-        <h1 className="text-2xl font-bold">Settings</h1>
+        <h1 className="text-2xl font-bold">Configurações</h1>
         <nav
           className="mt-4 flex flex-wrap gap-x-1 gap-y-0 items-end"
           aria-label="Settings sections"
@@ -850,11 +850,11 @@ export default function Settings() {
       <div className="flex min-h-0 min-w-0 flex-1 flex-col lg:flex-row lg:items-stretch">
         <aside
           className="flex min-h-0 w-full shrink-0 flex-col border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900/60 lg:h-full lg:min-h-0 lg:w-44 lg:border-b-0 lg:border-r lg:bg-gray-100 lg:dark:bg-gray-900/50"
-          aria-label="On this page"
+          aria-label="Nesta página"
         >
           <div className="flex min-h-0 flex-1 flex-col px-4 py-3 lg:py-5 lg:pl-5 lg:pr-3">
             <p className="mb-2 block shrink-0 text-[10px] font-semibold uppercase tracking-wider text-gray-700 dark:text-gray-300">
-              On this page
+              Nesta página
             </p>
             <nav className="flex min-h-0 flex-1 flex-row flex-wrap content-start gap-1 overflow-y-auto lg:flex-col lg:flex-nowrap">
               {sectionNav.map(s => {
@@ -887,25 +887,25 @@ export default function Settings() {
         {activeTab === 'general' && (
           <>
         <section id="settings-scheduling" className="mb-10 scroll-mt-6">
-          <h2 className="text-lg font-semibold mb-3 border-b border-gray-200 dark:border-gray-700 pb-2">Scheduling</h2>
-          <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">Controls how Recalculate All Campaigns distributes emails.</p>
+          <h2 className="text-lg font-semibold mb-3 border-b border-gray-200 dark:border-gray-700 pb-2">Agendamento</h2>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">Define como os e-mails são distribuídos ao recalcular todas as campanhas.</p>
           <div className="space-y-3">
             <label className="flex gap-2 items-start cursor-pointer">
               <input type="radio" name="strategy" value="priority" checked={strategy === 'priority'} onChange={() => submitStrategy('priority')} />
               <span>
-                <strong>Priority by campaign</strong><br />
+                <strong>Prioridade por campanha</strong><br />
                 <span className="text-xs text-gray-500 dark:text-gray-400">
-                  Campaigns processed in ascending priority order.{' '}
-                  <a href="/campaigns" className="text-teal-500 underline">Reorder campaigns</a>
+                  As campanhas são processadas em ordem crescente de prioridade.{' '}
+                  <a href="/campaigns" className="text-teal-500 underline">Reordenar campanhas</a>
                 </span>
               </span>
             </label>
             <label className="flex gap-2 items-start cursor-pointer">
               <input type="radio" name="strategy" value="round_robin" checked={strategy === 'round_robin'} onChange={() => submitStrategy('round_robin')} />
               <span>
-                <strong>Round-robin distribution</strong><br />
+                <strong>Distribuição alternada</strong><br />
                 <span className="text-xs text-gray-500 dark:text-gray-400">
-                  Inbox capacity divided evenly across active campaigns.
+                  A capacidade das contas de envio é dividida igualmente entre as campanhas ativas.
                 </span>
               </span>
             </label>
@@ -913,8 +913,8 @@ export default function Settings() {
         </section>
 
         <section id="settings-appearance" className="mb-10 scroll-mt-6">
-          <h2 className="text-lg font-semibold mb-3 border-b border-gray-200 dark:border-gray-700 pb-2">Appearance</h2>
-          <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">Theme follows your choice; System uses your device light/dark setting (default).</p>
+          <h2 className="text-lg font-semibold mb-3 border-b border-gray-200 dark:border-gray-700 pb-2">Aparência</h2>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">O tema segue sua escolha. A opção Sistema usa a aparência clara ou escura do dispositivo (padrão).</p>
           <div className="space-y-3">
             <label className="flex gap-2 items-start cursor-pointer">
               <input
@@ -925,10 +925,10 @@ export default function Settings() {
                 onChange={() => setThemePreference('system')}
               />
               <span>
-                <strong>System</strong>
+                <strong>Sistema</strong>
                 <br />
                 <span className="text-xs text-gray-500 dark:text-gray-400">
-                  Match your OS or browser appearance automatically.
+                  Usar automaticamente a aparência do sistema ou navegador.
                 </span>
               </span>
             </label>
@@ -941,9 +941,9 @@ export default function Settings() {
                 onChange={() => setThemePreference('light')}
               />
               <span>
-                <strong>Light</strong>
+                <strong>Claro</strong>
                 <br />
-                <span className="text-xs text-gray-500 dark:text-gray-400">Always use light theme.</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400">Usar sempre o tema claro.</span>
               </span>
             </label>
             <label className="flex gap-2 items-start cursor-pointer">
@@ -955,43 +955,43 @@ export default function Settings() {
                 onChange={() => setThemePreference('dark')}
               />
               <span>
-                <strong>Dark</strong>
+                <strong>Escuro</strong>
                 <br />
-                <span className="text-xs text-gray-500 dark:text-gray-400">Always use dark theme.</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400">Usar sempre o tema escuro.</span>
               </span>
             </label>
           </div>
         </section>
 
         <section id="settings-account" className="mb-10 scroll-mt-6">
-          <h2 className="text-lg font-semibold mb-3 border-b border-gray-200 dark:border-gray-700 pb-2">Account &amp; Security</h2>
+          <h2 className="text-lg font-semibold mb-3 border-b border-gray-200 dark:border-gray-700 pb-2">Conta e segurança</h2>
           {user && (
             <div className="space-y-4">
               <div className="text-sm">
-                <span className="text-gray-500 dark:text-gray-400">Logged in as </span>
+                <span className="text-gray-500 dark:text-gray-400">Conectado como </span>
                 <span className="font-medium">{user.username}</span>
-                <span className="ml-2 text-xs px-2 py-0.5 rounded bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 uppercase">{user.role}</span>
+                <span className="ml-2 text-xs px-2 py-0.5 rounded bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 uppercase">{user.role === 'admin' ? 'Administrador' : user.role === 'user' ? 'Usuário' : user.role}</span>
               </div>
 
-              <Button size="sm" variant="outline" onClick={logout}>Log Out</Button>
+              <Button size="sm" variant="outline" onClick={logout}>Sair</Button>
             </div>
           )}
         </section>
 
         <section id="settings-known-ips" className="mb-10 scroll-mt-6">
-          <h2 className="text-lg font-semibold mb-2 border-b border-gray-200 dark:border-gray-700 pb-2">Known IPs</h2>
+          <h2 className="text-lg font-semibold mb-2 border-b border-gray-200 dark:border-gray-700 pb-2">IPs conhecidos</h2>
           <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
-            Opens and clicks from these IPs are ignored for self-open filtering.
+            As aberturas e os cliques destes IPs são desconsiderados para evitar contabilizar suas próprias interações.
           </p>
           <Button size="sm" variant="outline" onClick={() => setKnownIpsOpen(true)}>
-            Manage Known IPs
+            Gerenciar IPs conhecidos
           </Button>
         </section>
 
         <section id="settings-about" className="mb-10 scroll-mt-6">
-          <h2 className="text-lg font-semibold mb-3 border-b border-gray-200 dark:border-gray-700 pb-2">About</h2>
+          <h2 className="text-lg font-semibold mb-3 border-b border-gray-200 dark:border-gray-700 pb-2">Sobre</h2>
           <p className="text-xs text-gray-500 dark:text-gray-400 mb-4">
-            Your version, what&apos;s new, announcements, and anonymous usage data.
+            Sua versão, novidades, avisos e dados anônimos de uso.
           </p>
 
           {/* 1 — version + channel */}
@@ -999,27 +999,27 @@ export default function Settings() {
             <div className="flex items-center justify-between gap-3">
               <div className="min-w-0">
                 <div className="text-sm font-medium">
-                  Quickly{' '}
-                  <span className="font-mono">{about.version || '—'}</span>
+                  Bazhi{' '}
+                  <span className="font-mono">{about.version === 'unknown' ? 'versão não identificada' : about.version || '—'}</span>
                 </div>
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                  {isProduction ? 'Production install' : 'Development install'}
+                  {isProduction ? 'Instalação de produção' : 'Instalação de desenvolvimento'}
                 </p>
               </div>
               {about.updateAvailable ? (
                 <span className="flex shrink-0 items-center gap-1 text-xs text-teal-600 dark:text-teal-400">
                   <RiArrowUpLine size={14} />
-                  update available
+                  atualização disponível
                 </span>
               ) : about.unavailable ? (
                 <span className="flex shrink-0 items-center gap-1 text-xs text-gray-400">
                   <RiInformationLine size={14} />
-                  checks unavailable
+                  verificação indisponível
                 </span>
               ) : (
                 <span className="flex shrink-0 items-center gap-1 text-xs text-green-600 dark:text-green-400">
                   <RiCheckboxCircleLine size={14} />
-                  up to date
+                  atualizado
                 </span>
               )}
             </div>
@@ -1027,21 +1027,21 @@ export default function Settings() {
 
           {/* 2 — updates + What's New */}
           <div className="rounded-lg border border-gray-200 dark:border-gray-700 p-4 mb-4">
-            <div className="text-sm font-medium">Updates</div>
+            <div className="text-sm font-medium">Atualizações</div>
             <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
               {about.unavailable
-                ? 'Update checks are unavailable right now.'
+                ? 'A verificação de atualizações está indisponível no momento.'
                 : about.updateAvailable && about.latest
-                  ? `A newer version (v${about.latest}) is available.`
-                  : 'You are on the latest version.'}
+                  ? `Uma nova versão (v${about.latest}) está disponível.`
+                  : 'Você está usando a versão mais recente.'}
             </p>
             <details className="mt-3 border-t border-gray-200 dark:border-gray-700 pt-3">
               <summary className="cursor-pointer text-xs text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
-                What&apos;s New
+                Novidades
               </summary>
               <div className="mt-2 max-h-64 overflow-y-auto space-y-2">
                 {about.releases.length === 0 ? (
-                  <p className="text-xs text-gray-400">No release notes yet.</p>
+                  <p className="text-xs text-gray-400">Ainda não há notas de atualização.</p>
                 ) : (
                   about.releases.map(release => (
                     <div
@@ -1057,12 +1057,12 @@ export default function Settings() {
                         )}
                         {release.security && (
                           <span className="rounded px-1 py-px text-[10px] font-semibold uppercase tracking-wide bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300">
-                            security
+                            segurança
                           </span>
                         )}
                         {release.prerelease && (
                           <span className="rounded border border-gray-200 dark:border-gray-700 px-1 py-px text-[10px] uppercase tracking-wide text-gray-400">
-                            pre-release
+                            pré-lançamento
                           </span>
                         )}
                       </div>
@@ -1087,10 +1087,10 @@ export default function Settings() {
           <div className="rounded-lg border border-gray-200 dark:border-gray-700 p-4 mb-4">
             <div className="flex items-center gap-1.5 text-sm font-medium mb-2">
               <RiMegaphoneLine size={14} />
-              Announcements
+              Avisos
             </div>
             {about.announcements.length === 0 ? (
-              <p className="text-xs text-gray-400">No announcements right now.</p>
+              <p className="text-xs text-gray-400">Nenhum aviso no momento.</p>
             ) : (
               <div className="space-y-2">
                 {about.announcements.map(announcement => {
@@ -1136,10 +1136,9 @@ export default function Settings() {
           {/* 4 — usage data (the telemetry opt-out, at the bottom of About) */}
           {user?.role === 'admin' && (
             <div className="rounded-lg border border-gray-200 dark:border-gray-700 p-4">
-              <div className="text-sm font-medium">Usage data</div>
+              <div className="text-sm font-medium">Dados de uso</div>
               <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-                A coarse heartbeat that never identifies you or your leads — uncheck to opt
-                out, and nothing is sent.
+                Informações gerais de uso, sem identificar você ou seus contatos. Desmarque para interromper o envio.
               </p>
               <label className="flex items-center gap-2">
                 <input
@@ -1147,7 +1146,7 @@ export default function Settings() {
                   checked={telemetryEnabled}
                   onChange={e => submitTelemetry(e.target.checked)}
                 />
-                <span className="text-sm">Send anonymous usage data</span>
+                <span className="text-sm">Enviar dados anônimos de uso</span>
               </label>
             </div>
           )}
@@ -1161,7 +1160,7 @@ export default function Settings() {
         <section id="settings-gmail-sync" className="mb-10 scroll-mt-6">
           <h2 className="text-lg font-semibold mb-1 border-b pb-2">Gmail Sync</h2>
           <p className="text-xs text-gray-500 mb-4">
-            Configure how Quickly detects replies from Gmail inboxes. Optional — polling works
+            Configure how Bazhi detects replies from Gmail inboxes. Optional — polling works
             without these settings, but push notifications make reply detection instant.
           </p>
           <div className="space-y-4">
@@ -1242,7 +1241,7 @@ export default function Settings() {
                 }
               }}
             >
-              {gmailSyncSaving ? 'Saving…' : 'Save'}
+              {gmailSyncSaving ? 'Saving…' : 'Salvar'}
             </Button>
           </div>
         </section>
@@ -1796,8 +1795,8 @@ export default function Settings() {
                     <span className={`text-gray-400 transition-transform text-xs ${isOpen ? 'rotate-90' : ''}`}>▶</span>
                     <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-100 truncate">{feature.label}</h3>
                     {feature.enabled
-                      ? <span className="text-[10px] bg-green-100 text-green-700 border border-green-200 rounded-full px-2 py-0.5 font-medium shrink-0">Enabled</span>
-                      : <span className="text-[10px] bg-gray-100 text-gray-500 border rounded-full px-2 py-0.5 font-medium shrink-0">Disabled</span>
+                      ? <span className="text-[10px] bg-green-100 text-green-700 border border-green-200 rounded-full px-2 py-0.5 font-medium shrink-0">Ativado</span>
+                      : <span className="text-[10px] bg-gray-100 text-gray-500 border rounded-full px-2 py-0.5 font-medium shrink-0">Desativado</span>
                     }
                   </div>
                   {/* Enable toggle — click doesn't propagate to collapse toggle */}
@@ -1961,7 +1960,7 @@ export default function Settings() {
                       >
                         {verifying ? 'Testing…' : feature.connection_tested ? '✓ Connection Tested' : 'Test Connection'}
                       </Button>
-                      <Button size="sm" onClick={() => saveAiFeature(fid)}>Save</Button>
+                      <Button size="sm" onClick={() => saveAiFeature(fid)}>Salvar</Button>
                       {verifyResult && !verifyResult.ok && (
                         <span className="text-sm font-medium text-red-500">
                           ✗ {verifyResult.error}
@@ -1991,7 +1990,7 @@ export default function Settings() {
           </p>
 
           <div className="mb-8">
-            <h3 className="mb-2 text-base font-semibold text-gray-800 dark:text-gray-100">Notifications</h3>
+            <h3 className="mb-2 text-base font-semibold text-gray-800 dark:text-gray-100">Notificações</h3>
             <p className="mb-3 text-xs text-gray-500 dark:text-gray-400">
               View your in-app notification history and manage email delivery preferences.
             </p>
@@ -2025,7 +2024,7 @@ export default function Settings() {
           <>
         {/* ──────────────── API Keys ──────────────── */}
         <section id="settings-api-keys" className="mb-10 scroll-mt-6">
-          <h2 className="text-lg font-semibold mb-1 border-b pb-2">API Keys</h2>
+          <h2 className="text-lg font-semibold mb-1 border-b pb-2">Chaves de API</h2>
           <p className="text-xs text-gray-500 mb-4">
             Create keys to access the API programmatically. The full key is shown only once — copy it immediately.
           </p>
@@ -2050,7 +2049,7 @@ export default function Settings() {
             <h3 className="text-sm font-semibold mb-3">Create API Key</h3>
             <div className="flex gap-2 items-end">
               <div className="flex-1">
-                <label className="text-xs text-gray-500">Name</label>
+                <label className="text-xs text-gray-500">Nome</label>
                 <input
                   type="text"
                   placeholder="e.g. CI/CD Pipeline"
@@ -2070,7 +2069,7 @@ export default function Settings() {
                   onChange={e => setNewKeyExpiry(e.target.value)}
                 />
               </div>
-              <Button size="sm" onClick={createApiKey} disabled={!newKeyName.trim()}>Create</Button>
+              <Button size="sm" onClick={createApiKey} disabled={!newKeyName.trim()}>Criar</Button>
             </div>
           </Card>
 
@@ -2165,7 +2164,7 @@ export default function Settings() {
                     />
                     <input
                       type="text"
-                      placeholder="Description"
+                      placeholder="Descrição"
                       className="flex-1 border rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300"
                       value={editForm.description}
                       onChange={e => setEditForm(p => ({ ...p, description: e.target.value }))}
@@ -2176,8 +2175,8 @@ export default function Settings() {
                     onChange={evts => setEditForm(p => ({ ...p, events: evts }))}
                   />
                   <div className="flex gap-2">
-                    <Button size="sm" onClick={() => saveEdit(wh.id)}>Save</Button>
-                    <Button size="sm" variant="outline" onClick={cancelEdit}>Cancel</Button>
+                    <Button size="sm" onClick={() => saveEdit(wh.id)}>Salvar</Button>
+                    <Button size="sm" variant="outline" onClick={cancelEdit}>Cancelar</Button>
                   </div>
                 </div>
               ) : (
@@ -2187,7 +2186,7 @@ export default function Settings() {
                     <div className="flex items-center gap-2">
                       <span
                         className={`inline-block w-2 h-2 rounded-full ${wh.active ? 'bg-green-500' : 'bg-gray-300'}`}
-                        title={wh.active ? 'Active' : 'Inactive'}
+                        title={wh.active ? 'Ativo' : 'Inactive'}
                       />
                       <span className="text-sm font-medium truncate max-w-xs" title={wh.url}>{wh.url}</span>
                     </div>
@@ -2195,12 +2194,12 @@ export default function Settings() {
                       <Button size="sm" variant="ghost" onClick={() => toggleActive(wh.id, wh.active)}>
                         Enable
                       </Button>
-                      <Button size="sm" variant="ghost" onClick={() => startEdit(wh)}>Edit</Button>
+                      <Button size="sm" variant="ghost" onClick={() => startEdit(wh)}>Editar</Button>
                       <Button size="sm" variant="ghost" onClick={() => testWebhook(wh.id)}>Test</Button>
                       <Button size="sm" variant="ghost" onClick={() => { setTestEventWh(testEventWh === wh.id ? null : wh.id); setTestEventType(''); setTestEventResult(null); }}>
                         Simulate Event
                       </Button>
-                      <Button size="sm" variant="ghost" className="text-red-500" onClick={() => deleteWebhook(wh.id)}>Delete</Button>
+                      <Button size="sm" variant="ghost" className="text-red-500" onClick={() => deleteWebhook(wh.id)}>Excluir</Button>
                     </div>
                   </div>
                   {wh.description && <p className="text-xs text-gray-500 mb-1">{wh.description}</p>}
@@ -2229,7 +2228,7 @@ export default function Settings() {
                           ))}
                         </select>
                         <Button size="sm" onClick={() => testWebhookEvent(wh.id, testEventType)}>
-                          Send
+                          Enviar
                         </Button>
                       </div>
                       {testEventResult && (
@@ -2252,7 +2251,7 @@ export default function Settings() {
         <section id="settings-mcp" className="mb-10 scroll-mt-6">
           <h2 className="text-lg font-semibold mb-1 border-b pb-2">MCP (AI agents)</h2>
           <p className="text-xs text-gray-500 mb-4">
-            Quickly exposes a remote MCP endpoint over HTTPS. Create an API key under API keys, then point Cursor at it with
+            Bazhi exposes a remote MCP endpoint over HTTPS. Create an API key under API keys, then point Cursor at it with
             <code className="mx-1 text-[10px] bg-gray-100 dark:bg-gray-800 px-1 rounded">npx mcp-remote</code>
             (Node 18+). No Python install on your machine.
           </p>
@@ -2324,7 +2323,7 @@ export default function Settings() {
             </p>
             <label className="flex items-center gap-2">
               <input type="checkbox" checked={testMode} onChange={e => submitTestMode(e.target.checked)} />
-              <span className="text-sm">Enabled</span>
+              <span className="text-sm">Ativado</span>
             </label>
           </section>
         )}
@@ -2336,7 +2335,7 @@ export default function Settings() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <div className="bg-white dark:bg-gray-900 rounded-xl shadow-xl w-full max-w-2xl mx-4 p-6 max-h-[80vh] flex flex-col">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold">Known IPs</h2>
+              <h2 className="text-lg font-semibold">IPs conhecidos</h2>
               <button
                 onClick={() => setKnownIpsOpen(false)}
                 className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xl leading-none"
@@ -2409,7 +2408,7 @@ export default function Settings() {
                                 notify('IP removed', 'success');
                               } catch (e) { notify(e.message, 'error'); }
                             }}
-                          >Remove</button>
+                          >Remover</button>
                         </td>
                       </tr>
                     ))}
