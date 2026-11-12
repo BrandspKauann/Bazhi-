@@ -1,0 +1,5 @@
+# Fora do deploy
+local-preview.cjs
+.bazhi-access.json
+**/__pycache__/
+**/*.pyc
