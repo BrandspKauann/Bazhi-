@@ -1,3 +1,4 @@
+import { useAuth } from '../context/AuthContext';
 import React from 'react';
 import Sidebar from './ui/Sidebar';
 import TestModeBanner from './TestModeBanner';
@@ -12,6 +13,7 @@ import { OnboardingProvider } from '../context/OnboardingContext';
 
 function LayoutInner({ children, sidebarCollapsed, setSidebarCollapsed }) {
   const { isProduction } = useAppMode();
+  const { user } = useAuth();
   const contentMargin = sidebarCollapsed ? 'ml-16' : 'ml-44';
 
   return (
@@ -32,6 +34,7 @@ function LayoutInner({ children, sidebarCollapsed, setSidebarCollapsed }) {
         className={`${contentMargin} flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-gray-50 text-gray-900`}
       >
         {!isProduction && <TestModeBanner />}
+        {user?.demo && <div className="px-4 py-2 bg-amber-50 text-amber-800 text-xs">Acesso de demonstração autorizado. Dados e envios ainda não estão conectados.</div>}
         <AppNotices />
         <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
           {children}

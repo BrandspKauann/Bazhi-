@@ -8,9 +8,8 @@
     "api/gateway.js": {
       "maxDuration": 120
     },
-    "api/index.py": {
-      "maxDuration": 120,
-      "excludeFiles": "{tests/**,docs/**,work/**,outputs/**,frontend/node_modules/**,static/**,.git/**}"
+    "api/access.js": {
+      "maxDuration": 30
     }
   },
   "routes": [
@@ -18,8 +17,12 @@
       "handle": "filesystem"
     },
     {
+      "src": "/api/auth/(setup-status|login|refresh|me|logout)",
+      "dest": "/api/access?route=$1"
+    },
+    {
       "src": "/(api|oauth|o|c|u)/(.*)",
-      "dest": "/api/index.py?route=$1/$2"
+      "dest": "/api/gateway?route=$1/$2"
     },
     {
       "src": "/(.*)",
