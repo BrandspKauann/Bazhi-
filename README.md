@@ -21,15 +21,15 @@ O servidor usa Python/FastAPI, PostgreSQL e um agendador contínuo. O Dockerfile
 
 As variáveis históricas `QUICKLY_*` foram preservadas para compatibilidade. Consulte [a instalação original](docs/INSTALL.md) e [a integração Receita](docs/RECEITA.md).
 
-## Interface na Vercel
+## Servidor e interface na Vercel
 
-Importe este repositório na Vercel usando a **raiz do repositório**. O `vercel.json` instala e constrói `frontend/`, entrega a aplicação e encaminha as chamadas ao servidor.
+Importe pela raiz do repositório. O `vercel.json` publica a interface e a API Python nativa (`api/index.py`). Não é necessário túnel ou servidor no computador para criar contas online.
 
-Configure **`BAZHI_BACKEND_URL`** na Vercel com o endereço HTTPS de um servidor Bazhi já em funcionamento e faça um novo deploy. No servidor, `BASE_URL` deve ser o endereço público usado para acessar o Bazhi na Vercel. Ajuste também `CORS_ORIGINS` e os retornos OAuth.
+Conecte um banco PostgreSQL pelo Storage da Vercel (por exemplo, Neon). A integração precisa definir `DATABASE_URL` ou `POSTGRES_URL`. Faça um novo deploy após conectar o banco. Ao abrir o site, crie uma nova conta de administrador com usuário, e-mail e senha. As contas e os dados do computador não são copiados automaticamente.
 
-**Conectar somente o GitHub à Vercel não coloca o sistema completo em operação.** A base Receita atualmente é local; seus arquivos não estão neste repositório e a Vercel não acessa o disco do computador. O servidor que executa o agendamento precisa ter acesso autorizado a esses arquivos e aos bancos de segmentações. Sem `BAZHI_BACKEND_URL`, a interface exibe uma mensagem de servidor não configurado.
+O modo Vercel desativa o agendador permanente por instância. Cadastro, login e rotas de gestão são atendidos por requisição; envios programados e sincronizações periódicas precisam de um worker ou cron apropriado antes de serem usados em produção. A base local da Receita continua fora do GitHub e não estará disponível na nuvem sem uma migração separada.
 
-O proxy de autenticação e API incluído deve ser validado com o endereço e os provedores OAuth do ambiente de produção antes de uso real. O banco, as contas, os segredos e os dados cadastrais não são publicados no GitHub.
+As dependências da função estão em `api/requirements.txt`, sem instalar todos os SDKs opcionais de IA. As variáveis históricas `QUICKLY_*` são mantidas por compatibilidade. É possível definir uma chave `QUICKLY_SECRET_KEY` própria; na ausência dela a API na Vercel deriva uma chave estável da credencial privada do banco.
 
 ## Origem e licença
 

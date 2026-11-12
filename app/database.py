@@ -36,6 +36,16 @@ if db_url.startswith("sqlite"):
         }
     )
 
+# Neon URLs use libpq options; asyncpg expects `ssl` and no channel_binding.
+if 'postgresql+asyncpg://' in db_url:
+    from urllib.parse import urlsplit, urlunsplit, parse_qsl, urlencode
+    parts = urlsplit(db_url)
+    params = dict(parse_qsl(parts.query))
+    if 'sslmode' in params:
+        params['ssl'] = params.pop('sslmode')
+    params.pop('channel_binding', None)
+    db_url = urlunsplit((parts.scheme, parts.netloc, parts.path, urlencode(params), parts.fragment))
+
 engine = create_async_engine(
     db_url,
     **engine_kwargs,

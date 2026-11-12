@@ -59,6 +59,12 @@ import app.scheduler as scheduler_mod
 async def lifespan(app: FastAPI):
     await init_db()
 
+    # Vercel serves requests; a persistent scheduler must not start per instance.
+    import os
+    if os.getenv("BAZHI_SERVERLESS") == "1":
+        yield
+        return
+
     unibox_interval_minutes = 5
 
     from app.database import AsyncSessionLocal

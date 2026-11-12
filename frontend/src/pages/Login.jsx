@@ -21,6 +21,7 @@ function parseDetailMessage(text) {
 export default function Login() {
   const { setupComplete, refreshToken } = useAuth();
   const [username, setUsername] = useState('');
+  const [registerEmail, setRegisterEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
   const [loginBusy, setLoginBusy] = useState(false);
@@ -29,6 +30,10 @@ export default function Login() {
     setLoginBusy(true);
     setLoginError('');
     try {
+      if (setupComplete === false) {
+        const registration = await fetch('/api/auth/register', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username,email:registerEmail,password})});
+        if (!registration.ok) throw new Error(parseDetailMessage(await registration.text()) || 'Não foi possível criar a conta.');
+      }
       const response = await fetch('/api/auth/login', {
         method: 'POST', credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -134,15 +139,16 @@ export default function Login() {
         </div>
 
         <div className="mt-8 space-y-4">
-          {!isFirstUser && <form onSubmit={localLogin} className="space-y-4">
+          {<form onSubmit={localLogin} className="space-y-4">
             <label className="block text-sm font-medium text-gray-700">Usuário ou e-mail
               <input required autoComplete="username" value={username} onChange={e => setUsername(e.target.value)} className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2" />
             </label>
+            {isFirstUser && <label className="block text-sm font-medium text-gray-700">E-mail<input type="email" required autoComplete="email" value={registerEmail} onChange={e=>setRegisterEmail(e.target.value)} className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2" /></label>}
             <label className="block text-sm font-medium text-gray-700">Senha
               <input required type="password" autoComplete="current-password" value={password} onChange={e => setPassword(e.target.value)} className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2" />
             </label>
             {loginError && <p role="alert" className="text-sm text-red-600">{loginError}</p>}
-            <button disabled={loginBusy} className="w-full rounded-lg bg-primary px-4 py-2.5 text-white disabled:opacity-50">{loginBusy ? 'Entrando…' : 'Entrar com senha'}</button>
+            <button disabled={loginBusy} className="w-full rounded-lg bg-primary px-4 py-2.5 text-white disabled:opacity-50">{loginBusy ? 'Aguarde…' : isFirstUser ? 'Criar conta de administrador' : 'Entrar com senha'}</button>
           </form>}
           <a
             href="/oauth/app/google/authorize"
