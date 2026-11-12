@@ -34,9 +34,14 @@ export default function Login() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
       });
-      if (!response.ok) throw new Error('Usuário ou senha inválidos.');
+      if (!response.ok) {
+        if (response.status === 401) throw new Error('Usuário, e-mail ou senha inválidos.');
+        if (response.status === 403) throw new Error('Esta conta está desativada. Entre em contato com o administrador.');
+        if (response.status >= 500) throw new Error('O servidor Bazhi está indisponível ou ainda não foi conectado ao site. Sua senha não foi validada.');
+        throw new Error('Não foi possível entrar. Tente novamente.');
+      }
       if (!(await refreshToken())) throw new Error('Não foi possível iniciar a sessão.');
-    } catch (error) { setLoginError(error.message); }
+    } catch (error) { setLoginError(error instanceof TypeError ? 'Não foi possível conectar ao servidor Bazhi. Verifique a conexão.' : error.message); }
     finally { setLoginBusy(false); }
   };
   const [restoreExpanded, setRestoreExpanded] = useState(false);
@@ -130,7 +135,7 @@ export default function Login() {
 
         <div className="mt-8 space-y-4">
           {!isFirstUser && <form onSubmit={localLogin} className="space-y-4">
-            <label className="block text-sm font-medium text-gray-700">Usuário
+            <label className="block text-sm font-medium text-gray-700">Usuário ou e-mail
               <input required autoComplete="username" value={username} onChange={e => setUsername(e.target.value)} className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2" />
             </label>
             <label className="block text-sm font-medium text-gray-700">Senha

@@ -18,7 +18,7 @@ from fastapi import (
     status,
 )
 from pydantic import BaseModel, Field, field_validator
-from sqlalchemy import select, func
+from sqlalchemy import select, func, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.auth import (
@@ -327,7 +327,8 @@ async def register(data: RegisterRequest, db: AsyncSession = Depends(get_db)):
 @router.post("/login", response_model=TokenResponse)
 async def login(data: LoginRequest, response: Response, db: AsyncSession = Depends(get_db)):
     """Authenticate and return JWT tokens."""
-    result = await db.execute(select(User).where(User.username == data.username.lower()))
+    identifier = data.username.strip().lower()
+    result = await db.execute(select(User).where(or_(func.lower(User.username) == identifier, func.lower(User.email) == identifier)))
     user = result.scalar_one_or_none()
 
     if not user or not verify_password(data.password, user.password_hash):
