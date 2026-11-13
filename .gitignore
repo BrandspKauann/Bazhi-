@@ -50,3 +50,6 @@ compose.local.yml
 *.parquet
 *.qbk
 frontend/dist/
+
+# Credenciais locais do preview (nunca versionar)
+.bazhi-access.json
