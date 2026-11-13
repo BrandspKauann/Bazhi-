@@ -18,5 +18,6 @@ http.createServer((req, res) => {
   upstream.setTimeout(115000,()=>upstream.destroy());
   upstream.on('error',()=>{ if(!res.headersSent) res.writeHead(502);res.end(); });
   req.on('aborted',()=>upstream.destroy());
+  res.on('close',()=>upstream.destroy());
   req.pipe(upstream);
 }).listen(8787, '127.0.0.1',()=>console.log('Bazhi protected bridge listening on loopback:8787'));

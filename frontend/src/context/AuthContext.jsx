@@ -2,6 +2,13 @@ import { createContext, useContext, useState, useEffect, useCallback } from 'rea
 
 const AuthContext = createContext(null);
 
+export async function authFetch(url, options = {}) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 12000);
+  try { return await fetch(url, {...options, signal: controller.signal}); }
+  finally { clearTimeout(timer); }
+}
+
 // Access token lifetime in minutes – must match ACCESS_TOKEN_EXPIRE_MINUTES in app/auth.py.
 // We refresh 5 minutes before expiry.
 const ACCESS_TOKEN_EXPIRE_MINUTES = 30;
@@ -25,7 +32,7 @@ export function AuthProvider({ children }) {
 
   const refreshToken = useCallback(async () => {
     try {
-      const res = await fetch('/api/auth/refresh', {
+      const res = await authFetch('/api/auth/refresh', {
         method: 'POST',
         credentials: 'include', // send httpOnly refresh cookie
       });
@@ -33,7 +40,7 @@ export function AuthProvider({ children }) {
         const data = await res.json();
         _accessToken = data.access_token;
         // Re-fetch user with new token
-        const userRes = await fetch('/api/auth/me', {
+        const userRes = await authFetch('/api/auth/me', {
           headers: { Authorization: `Bearer ${_accessToken}` },
         });
         if (userRes.ok) {
@@ -53,7 +60,7 @@ export function AuthProvider({ children }) {
       return;
     }
     try {
-      const res = await fetch('/api/auth/me', {
+      const res = await authFetch('/api/auth/me', {
         headers: { Authorization: `Bearer ${_accessToken}` },
       });
       if (res.ok) {
@@ -75,7 +82,7 @@ export function AuthProvider({ children }) {
   }, [refreshToken]);
 
   const logout = useCallback(async () => {
-    await fetch('/api/auth/logout', {
+    await authFetch('/api/auth/logout', {
       method: 'POST',
       credentials: 'include',
     }).catch(() => {});
@@ -85,7 +92,7 @@ export function AuthProvider({ children }) {
 
   const checkSetup = useCallback(async () => {
     try {
-      const res = await fetch('/api/auth/setup-status');
+      const res = await authFetch('/api/auth/setup-status');
       const data = await res.json();
       setSetupComplete(data.setup_complete);
       return data.setup_complete;
@@ -97,9 +104,8 @@ export function AuthProvider({ children }) {
   // On mount: check setup status, try refresh from httpOnly cookie
   useEffect(() => {
     (async () => {
-      await checkSetup();
-      await refreshToken();
-      setLoading(false);
+      try { await Promise.allSettled([checkSetup(), refreshToken()]); }
+      finally { setLoading(false); }
     })();
   }, [checkSetup, refreshToken]);
 

@@ -430,7 +430,11 @@ async def send_unibox_email(data: UniboxSendRequest, db: AsyncSession = Depends(
 
 
 @router.get("/events")
-async def unibox_events_sse(request: Request):
+async def unibox_events_sse(request: Request, db: AsyncSession = Depends(get_db)):
+    # Authentication shares this session. A live event stream must not keep its
+    # transaction checked out for its entire lifetime (or across reconnects).
+    await db.commit()
+    await db.close()
     queue = await unibox_events.subscribe()
 
     async def stream():

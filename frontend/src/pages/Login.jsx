@@ -1,6 +1,6 @@
 import bazhiLogo from '../assets/bazhi-logo.svg';
 import { useEffect, useState } from 'react';
-import { useAuth } from '../context/AuthContext';
+import { authFetch, useAuth } from '../context/AuthContext';
 import { FileUploadArea } from '../components/ui/FileUploadArea';
 
 const BACKUP_MIN_PASSWORD_LEN = 8;
@@ -31,10 +31,10 @@ export default function Login() {
     setLoginError('');
     try {
       if (setupComplete === false) {
-        const registration = await fetch('/api/auth/register', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username,email:registerEmail,password})});
+        const registration = await authFetch('/api/auth/register', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username,email:registerEmail,password})});
         if (!registration.ok) throw new Error(parseDetailMessage(await registration.text()) || 'Não foi possível criar a conta.');
       }
-      const response = await fetch('/api/auth/login', {
+      const response = await authFetch('/api/auth/login', {
         method: 'POST', credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
@@ -46,7 +46,7 @@ export default function Login() {
         throw new Error('Não foi possível entrar. Tente novamente.');
       }
       if (!(await refreshToken())) throw new Error('Não foi possível iniciar a sessão.');
-    } catch (error) { setLoginError(error instanceof TypeError ? 'Não foi possível conectar ao servidor Bazhi. Verifique a conexão.' : error.message); }
+    } catch (error) { setLoginError(error.name === 'AbortError' ? 'O servidor demorou para responder. Tente novamente.' : error instanceof TypeError ? 'Não foi possível conectar ao servidor Bazhi. Verifique a conexão.' : error.message); }
     finally { setLoginBusy(false); }
   };
   const [restoreExpanded, setRestoreExpanded] = useState(false);
