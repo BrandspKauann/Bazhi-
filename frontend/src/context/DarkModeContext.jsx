@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect, useContext, useCallback } from 'react';
 
 
-const STORAGE_KEY = 'darkreader';
+const STORAGE_KEY = 'bazhi-theme-v2';
 
 // central configuration for dark mode appearance
 const DARKREADER_SETTINGS = { brightness: 150, contrast: 100, sepia: 0 };
@@ -12,9 +12,9 @@ function readDarkThemePreference() {
     const s = localStorage.getItem(STORAGE_KEY);
     if (s === 'on' || s === 'dark') return 'dark';
     if (s === 'off' || s === 'light') return 'light';
-    return s === 'system' ? 'system' : 'dark';
+    return s === 'system' ? 'system' : 'light';
   } catch {
-    return 'dark';
+    return 'light';
   }
 }
 

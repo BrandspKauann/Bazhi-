@@ -21,8 +21,9 @@ import { useSystemHealth } from '../../context/SystemHealthContext';
 
 // links including icons
 const links = [
-  { to: '/receita', label: 'Prospecção', icon: <RiContactsLine size={20} /> },
-  { to: '/analytics', label: 'Relatórios', icon: <RiLineChartLine size={20} /> },
+  { to: '/', label: 'Visão geral', icon: <RiLineChartLine size={20} /> },
+  { to: '/receita', label: 'Empresas', icon: <RiContactsLine size={20} /> },
+  { to: '/analytics', label: 'Insights', icon: <RiLineChartLine size={20} /> },
   { to: '/campaigns', label: 'Campanhas', icon: <RiSendPlaneLine size={20} /> },
   { to: '/leads', label: 'Contatos', icon: <RiContactsLine size={20} /> },
   { to: '/inboxes', label: 'Contas de e-mail', icon: <RiMailLine size={20} /> },
@@ -139,10 +140,11 @@ export default function Sidebar({ collapsed, onToggle }) {
       >
         <img src={logo} alt="Bazhi logo" className="h-8 w-8" />
         {!collapsed && (
-          <span className="text-white font-extrabold text-xl">Bazhi</span>
+          <span className="text-white font-extrabold text-xl">Bazhi.</span>
         )}
       </NavLink>
-      <div className="flex flex-col gap-2">
+      {!collapsed && <NavLink to="/settings" className="workspace-switch">Meu workspace <span>⌄</span></NavLink>}
+      <div className="sidebar-links flex flex-col gap-2">
         {links.map(l => (
           <div key={l.to} className="relative group">
             <NavLink
@@ -151,7 +153,7 @@ export default function Sidebar({ collapsed, onToggle }) {
               className={({ isActive }) => {
                 const active =
                   isActive ||
-                  (l.to === '/analytics' && location.pathname === '/') ||
+                  
                   (l.to.startsWith('/settings') && location.pathname === '/settings');
                 return `flex items-center py-2 rounded px-2 transition-colors transition-transform transform-gpu active:scale-95 hover:scale-102 duration-150 whitespace-nowrap !no-underline !hover:no-underline ${
                   active
@@ -184,6 +186,7 @@ export default function Sidebar({ collapsed, onToggle }) {
         ))}
       </div>
 
+      {!collapsed && <NavLink to="/settings" className="workspace-profile"><span className="overview-avatar avatar-0">VC</span><span>Seu workspace<small>Seu próximo negócio</small></span></NavLink>}
       {/* Help item + collapse at bottom */}
       <div className="mt-auto flex flex-col gap-2">
 

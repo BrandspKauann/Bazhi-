@@ -1,3 +1,4 @@
+import Overview from './pages/Overview';
 import Receita from './pages/Receita';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useEffect } from 'react';
@@ -57,7 +58,7 @@ function AppRoutes() {
         <ProtectedRoute>
           <Layout>
             <Routes>
-              <Route path="/" element={<Analytics />} />
+              <Route path="/" element={<Overview />} />
               <Route path="/campaigns" element={<Campaigns />} />
               <Route path="/campaigns/add" element={<AddCampaign />} />
               <Route path="/campaigns/:id" element={<CampaignDetail />} />

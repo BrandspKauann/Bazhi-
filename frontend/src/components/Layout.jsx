@@ -17,7 +17,8 @@ function LayoutInner({ children, sidebarCollapsed, setSidebarCollapsed }) {
   const contentMargin = sidebarCollapsed ? 'ml-16' : 'ml-44';
 
   return (
-    <div className="flex h-[100dvh] min-h-0 w-full overflow-hidden">
+    <div className="bazhi-app-frame flex min-h-0 w-full overflow-hidden">
+      <div className="bazhi-window-bar"><span className="window-dots"><i/><i/><i/></span><span>app.bazhi · Sua próxima oportunidade</span><span className="window-status">● Bazhi</span></div>
       <Sidebar
         collapsed={sidebarCollapsed}
         onToggle={() => {
@@ -31,7 +32,7 @@ function LayoutInner({ children, sidebarCollapsed, setSidebarCollapsed }) {
         }}
       />
       <div
-        className={`${contentMargin} flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-gray-50 text-gray-900`}
+        className={`${contentMargin} bazhi-main flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-gray-50 text-gray-900`}
       >
         {!isProduction && <TestModeBanner />}
         {user?.demo && <div className="px-4 py-2 bg-amber-50 text-amber-800 text-xs">Acesso de demonstração autorizado. Dados e envios ainda não estão conectados.</div>}
