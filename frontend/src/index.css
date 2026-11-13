@@ -236,4 +236,3 @@ html.dark .bazhi-auth { background:radial-gradient(ellipse at 15% 5%,#00B36B24,t
 html.dark .recharts-cartesian-grid line { stroke:#293544; }
 html.dark .recharts-text { fill:#A4B3C5; }
 @media(prefers-reduced-motion:reduce) { button,input,select,textarea { transition:none; } }
-

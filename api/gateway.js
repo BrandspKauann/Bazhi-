@@ -28,6 +28,10 @@ module.exports = async function gateway(req, res) {
     }
     headers.set('x-forwarded-host', req.headers.host || '');
     headers.set('x-forwarded-proto','https');
+    // Never trust a client-supplied bridge credential.
+    headers.delete('x-bazhi-bridge-key');
+    if (process.env.BAZHI_BRIDGE_SECRET) headers.set('x-bazhi-bridge-key',process.env.BAZHI_BRIDGE_SECRET);
+    headers.set('ngrok-skip-browser-warning','1');
     let body;
     if (!['GET','HEAD'].includes(req.method)) {
       if (req.body !== undefined) body = Buffer.isBuffer(req.body) || typeof req.body === 'string' ? req.body : JSON.stringify(req.body);

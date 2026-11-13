@@ -21,15 +21,15 @@ O servidor usa Python/FastAPI, PostgreSQL e um agendador contínuo. O Dockerfile
 
 As variáveis históricas `QUICKLY_*` foram preservadas para compatibilidade. Consulte [a instalação original](docs/INSTALL.md) e [a integração Receita](docs/RECEITA.md).
 
-## Servidor e interface na Vercel
+## Interface na Vercel e servidor local
 
-Importe pela raiz do repositório. O `vercel.json` publica a interface e a API Python nativa (`api/index.py`). Não é necessário túnel ou servidor no computador para criar contas online.
+Importe pela raiz do repositório. A Vercel publica o frontend e encaminha as rotas de API, inclusive o login, ao servidor persistente por `api/gateway.js`.
 
-Conecte um banco PostgreSQL pelo Storage da Vercel (por exemplo, Neon). A integração precisa definir `DATABASE_URL` ou `POSTGRES_URL`. Faça um novo deploy após conectar o banco. Ao abrir o site, crie uma nova conta de administrador com usuário, e-mail e senha. As contas e os dados do computador não são copiados automaticamente.
+Configure como variáveis privadas de produção `BAZHI_BACKEND_URL` (endereço HTTPS da ponte) e `BAZHI_BRIDGE_SECRET` (chave compartilhada). Faça novo deploy após mudar as variáveis. A senha é validada no banco PostgreSQL do servidor; o acesso de demonstração não é usado pelas rotas normais.
 
-O modo Vercel desativa o agendador permanente por instância. Cadastro, login e rotas de gestão são atendidos por requisição; envios programados e sincronizações periódicas precisam de um worker ou cron apropriado antes de serem usados em produção. A base local da Receita continua fora do GitHub e não estará disponível na nuvem sem uma migração separada.
+`scripts/local-bridge.cjs` atende somente em `127.0.0.1:8787`, exige a chave em cada requisição e encaminha exclusivamente as rotas da aplicação para `127.0.0.1:8000`. Inicie com `node scripts/local-bridge.cjs caminho-do-config-privado.json`; o JSON deve conter `secret`, com pelo menos 32 caracteres aleatórios. O túnel HTTPS autorizado aponta para a porta 8787. Não exponha diretamente a porta 8000.
 
-As dependências da função estão em `api/requirements.txt`, sem instalar todos os SDKs opcionais de IA. As variáveis históricas `QUICKLY_*` são mantidas por compatibilidade. É possível definir uma chave `QUICKLY_SECRET_KEY` própria; na ausência dela a API na Vercel deriva uma chave estável da credencial privada do banco.
+O computador, Docker, ponte e túnel precisam permanecer ligados. Se o endereço do túnel mudar, atualize `BAZHI_BACKEND_URL` e publique novamente. Os arquivos Receita são consultados em cópia local somente leitura nos volumes Docker; alterações nas segmentações da fonte exigem sincronizar essa cópia. Contatos, listas e tags importadas ficam no PostgreSQL persistente. Bases e chaves não são enviadas ao GitHub.
 
 ## Origem e licença
 

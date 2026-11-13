@@ -75,7 +75,7 @@ function loadAccessConfig() {
   process.exit(1);
 }
 
-process.env.BAZHI_ACCESS_CONFIG = loadAccessConfig();
+if (!process.env.BAZHI_BACKEND_URL) process.env.BAZHI_ACCESS_CONFIG = loadAccessConfig();
 
 const access = require('./api/access.js');
 const gateway = require('./api/gateway.js');
@@ -147,7 +147,7 @@ const server = http.createServer(async (req, res) => {
 
   // 1) /api/auth/(setup-status|login|refresh|me|logout)
   const authMatch = pathname.match(/^\/api\/auth\/(setup-status|login|refresh|me|logout)\/?$/);
-  if (authMatch) return invoke(access, { route: authMatch[1] });
+  if (authMatch && !process.env.BAZHI_BACKEND_URL) return invoke(access, { route: authMatch[1] });
 
   // 2) /(api|oauth|o|c|u)/(.*)
   const gwMatch = pathname.match(/^\/(api|oauth|o|c|u)\/(.*)$/);

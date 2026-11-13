@@ -153,7 +153,7 @@ export default function Sidebar({ collapsed, onToggle }) {
               className={({ isActive }) => {
                 const active =
                   isActive ||
-                  
+
                   (l.to.startsWith('/settings') && location.pathname === '/settings');
                 return `flex items-center py-2 rounded px-2 transition-colors transition-transform transform-gpu active:scale-95 hover:scale-102 duration-150 whitespace-nowrap !no-underline !hover:no-underline ${
                   active
