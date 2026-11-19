@@ -1,0 +1,63 @@
+name: bazhi-cluster-pilot
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: bazhi
+      POSTGRES_DB: bazhi_cluster
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Execute configure.py primeiro}
+    command: [postgres, -c, shared_buffers=64MB, -c, max_connections=30]
+    volumes: [cluster_data:/var/lib/postgresql/data]
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U bazhi -d bazhi_cluster]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+    mem_limit: 256m
+    logging: &logs
+      driver: json-file
+      options: {max-size: 10m, max-file: "2"}
+  coordinator:
+    build: .
+    environment:
+      DATABASE_URL: postgresql://bazhi:${POSTGRES_PASSWORD}@db:5432/bazhi_cluster
+      ADMIN_TOKEN: ${ADMIN_TOKEN:?Execute configure.py primeiro}
+      AGENT_TOKEN: ${AGENT_TOKEN:?Execute configure.py primeiro}
+      CLUSTER_MODE: ${CLUSTER_MODE:-simulation}
+      PROVIDER_INTERVAL: "1"
+      DOMAIN_INTERVAL: "3"
+    ports: [127.0.0.1:8788:8788]
+    depends_on:
+      db: {condition: service_healthy}
+    restart: unless-stopped
+    mem_limit: 256m
+    logging: *logs
+  agent:
+    build: .
+    command: [python, -u, agent.py]
+    environment:
+      COORDINATOR_URL: http://coordinator:8788
+      AGENT_TOKEN: ${AGENT_TOKEN}
+      CONCURRENCY: ${CONCURRENCY:-16}
+      ALLOW_REAL_SMTP: ${ALLOW_REAL_SMTP:-0}
+      SMTP_HELO: ${SMTP_HELO:-bazhi.com.br}
+      SMTP_SENDER: ${SMTP_SENDER:-}
+    depends_on: [coordinator]
+    restart: unless-stopped
+    mem_limit: 192m
+    logging: *logs
+  tls:
+    image: caddy:2-alpine
+    profiles: [remote]
+    ports: [80:80, 443:443]
+    environment:
+      COORDINATOR_DOMAIN: ${COORDINATOR_DOMAIN}
+    volumes: [./Caddyfile:/etc/caddy/Caddyfile:ro, caddy_data:/data]
+    depends_on: [coordinator]
+    restart: unless-stopped
+    mem_limit: 128m
+    logging: *logs
+volumes:
+  cluster_data:
+  caddy_data:

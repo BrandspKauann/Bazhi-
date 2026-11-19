@@ -1,0 +1,18 @@
+name: bazhi-cluster-node
+services:
+  agent:
+    build: .
+    command: [python, -u, agent.py]
+    environment:
+      COORDINATOR_URL: ${COORDINATOR_URL:?Configure a URL HTTPS do coordenador}
+      AGENT_TOKEN: ${AGENT_TOKEN:?Configure o token privado do agente}
+      CONCURRENCY: ${CONCURRENCY:-16}
+      NODE_NAME: ${NODE_NAME:-node}
+      ALLOW_REAL_SMTP: ${ALLOW_REAL_SMTP:-0}
+      SMTP_HELO: ${SMTP_HELO:-bazhi.com.br}
+      SMTP_SENDER: ${SMTP_SENDER:-}
+    restart: unless-stopped
+    mem_limit: 192m
+    logging:
+      driver: json-file
+      options: {max-size: 10m, max-file: "2"}

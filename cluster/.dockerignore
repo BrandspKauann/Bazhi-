@@ -1,0 +1,10 @@
+.env
+.env.*
+*.env
+.venv
+__pycache__
+*.zip
+*.sqlite*
+*.parquet
+*.jsonl
+test-report*
