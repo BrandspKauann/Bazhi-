@@ -68,6 +68,20 @@ docker compose --env-file agent.env -f compose.agent.yml up -d --build
 
 ## Migrar o progresso sem refazer trabalho
 
+### Piloto gratuito com agente nativo no Windows
+
+Se o Docker não tem rota IPv6, mas o Windows consegue alcançar os MX por IPv6, a API e o PostgreSQL podem permanecer no Docker e o agente pode rodar nativamente. Isso evita mudar a rede do Windows ou encerrar os bots existentes; **não cria capacidade de hardware extra**.
+
+`compose.native.yml` adiciona um coordenador local separado em 127.0.0.1:8789, conectado ao banco vazio `bazhi_live_pilot`. O banco precisa existir antes de subir esse serviço; não reutilize o banco de simulação. Nenhuma porta de PostgreSQL é exposta.
+
+`sample_bridge.py` permite um teste pequeno e explicitamente autorizado. Reserva somente pendentes ainda sem tentativas e de domínios sem outro proprietário ativo, alterando seu estado para `cluster_pilot` para impedir a consulta simultânea pelo bot antigo. A reserva usa os índices existentes e tem um limite de execução de três segundos dentro da transação. Se não terminar, faz rollback; não force nem encerre os trabalhadores originais para obter a amostra.
+
+O iniciador `start_native_pilot.py` exige exatamente 50 pendentes na fila nova e os argumentos `--start --confirm-50`, uma caixa real configurada e autorização do operador. Sem `--start`, faz somente uma conferência, sem SMTP. O token administrativo não é passado ao agente e nenhuma credencial é impressa ou colocada em argumentos de processo.
+
+Quando os resultados terminarem, `sample_bridge.py --action reconcile --source-config CAMINHO/config.json` grava uma única tentativa por endereço na origem e só depois confirma o recebimento na API. A reconciliação é idempotente e não libera reservas de outros trabalhadores. Se a importação interromper antes de começar, `--action resume` reenvia a mesma reserva sem criar outra.
+
+**Não apague a tabela `cluster_pilot_sample` nem restaure os pendentes manualmente durante o teste.** Uma amostra iniciada precisa ser reconciliada para não perder resultados nem repetir consultas. O teste de 50 endereços não comprova uma taxa de 300/s para os 18 milhões.
+
 **Não é necessário parar o bot antigo para revisar ou testar este pacote. A parada coordenada só acontece no momento da migração real, depois de validar a infraestrutura.** Este programa não para nem apaga a origem.
 
 1. Prepare um **banco novo vazio de produção**. Defina `CLUSTER_MODE=live` no coordenador. Não reaproveite o volume de simulação, não o apague por conveniência: escolha outro nome de projeto/volume.

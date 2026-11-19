@@ -44,7 +44,7 @@ jobs:
           python configure.py
           docker compose config --quiet
       - name: Regression and concurrency tests
-        run: python -m unittest -v test_cluster.py
+        run: python -m unittest discover -v -p "test_*.py"
       - name: Queue benchmark without SMTP
         run: python benchmark.py
       - uses: actions/upload-artifact@v4
