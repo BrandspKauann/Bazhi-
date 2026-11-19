@@ -1,0 +1,18 @@
+services:
+  coordinator-native:
+    build: .
+    environment:
+      DATABASE_URL: postgresql://bazhi:${POSTGRES_PASSWORD}@db:5432/bazhi_live_pilot
+      ADMIN_TOKEN: ${ADMIN_TOKEN}
+      AGENT_TOKEN: ${AGENT_TOKEN}
+      CLUSTER_MODE: live
+      PROVIDER_INTERVAL: "1"
+      DOMAIN_INTERVAL: "3"
+    ports: [127.0.0.1:8789:8788]
+    depends_on:
+      db: {condition: service_healthy}
+    restart: unless-stopped
+    mem_limit: 256m
+    logging:
+      driver: json-file
+      options: {max-size: 10m, max-file: "2"}
